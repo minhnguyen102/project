@@ -1,0 +1,3 @@
+# Để nội dung của .env file không bị thay đổi giữa các môi trường khi update .env file thì bạn sử dụng .gitignore file để quy định việc này, bằng việc thêm .env file vào danh sách ignore
+
+.env
