@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require("mongoose")
 const database = require("./config/database")
 const router = require("./routes/client/index.router")
+const routerAdmin = require("./routes/admin/index.router")
 const app = express()
 const port = 3000
 
@@ -10,7 +11,9 @@ database.connect();
 app.set("views", "./views")
 app.set("view engine", "pug")
 
+// router
 router(app);
+routerAdmin(app)
 
 // ENV 
 require("dotenv").config();
