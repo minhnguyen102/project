@@ -22,6 +22,10 @@ const PORT = process.env.PORT;
 // STATIC FILE
 app.use(express.static("public"))
 
+// App locals variables 
+const systemConfig = require("./config/system")
+app.locals.prefixAdmin = systemConfig.prefixAdmin;
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${PORT}`)
 })
