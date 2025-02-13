@@ -1,0 +1,12 @@
+mixin pagination(objectPagination)
+    nav(aria-label='Page navigation example')
+        ul(class="pagination")
+            if(objectPagination.currentPage > 1)
+                li(class="page-item")
+                    a(class="page-link"  button-pagination=objectPagination.currentPage - 1) Previous
+            -for(let i = 1; i <= objectPagination.totalPage; i++)
+                li(class=`page-item ${(objectPagination.currentPage == i ) ? "active" : ""} ` )
+                    button(class="page-link" button-pagination = i ) #{i}
+            if(objectPagination.currentPage < objectPagination.totalPage)
+                li(class="page-item")
+                    a(class="page-link"  button-pagination=objectPagination.currentPage + 1) Next
