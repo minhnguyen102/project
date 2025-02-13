@@ -21,7 +21,7 @@ const formSearch = document.querySelector("#form-search");
 if(formSearch){
     formSearch.addEventListener("submit", (e) =>{
         e.preventDefault();
-        console.log(e.target.elements.keyword.value);
+        // console.log(e.target.elements.keyword.value);
 
         const keyword = e.target.elements.keyword.value;
         if(keyword){
