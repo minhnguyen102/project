@@ -1,4 +1,6 @@
 extends ../../layouts/default.pug
+include ../../mixins/filterStatus.pug
+include ../../mixins/search.pug
 
 block main 
     h1 Trang danh sách sản phẩm admin
@@ -8,27 +10,9 @@ block main
         .card-body 
             .row
                 .col-6
-                    each item in filterStatus
-                        button(
-                            class=`btn btn-sm ml-1 btn-outline-success ${item.class}`
-                            btn-status = item.status
-                        ) #{item.name}
-                .col-6 
-                    form(id="form-search")
-                        .input-group 
-                            input(
-                                type="text"
-                                placeholder="Nhập từ khóa"
-                                name="keyword"
-                                class="form-control"
-                                value=keyword
-                                autocomplete="off"
-                            )
-                            .input-group-append 
-                                button(
-                                    class="btn btn-success"
-                                    type="submit"
-                                ) Tìm
+                    +filterStatus(filterStatus)
+                .col-6
+                    +search(keyword)
 
     table.table.table-hover.table-sm
         thead 
@@ -55,3 +39,15 @@ block main
                     td
                         button(class="btn btn-warning btn-sm") Sửa
                         button(class="btn btn-danger btn-sm ml-1") Xóa
+
+    nav(aria-label='Page navigation example')
+        ul(class="pagination")
+            if(objectPagination.currentPage > 1)
+                li(class="page-item")
+                    a(class="page-link"  button-pagination=objectPagination.currentPage - 1) Previous
+            -for(let i = 1; i <= objectPagination.totalPage; i++)
+                li(class=`page-item ${(objectPagination.currentPage == i ) ? "active" : ""} ` )
+                    button(class="page-link" button-pagination = i ) #{i}
+            if(objectPagination.currentPage < objectPagination.totalPage)
+                li(class="page-item")
+                    a(class="page-link"  button-pagination=objectPagination.currentPage + 1) Next

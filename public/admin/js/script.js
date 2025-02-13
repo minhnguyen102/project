@@ -33,3 +33,16 @@ if(formSearch){
     })
 }
 // End Search
+
+// Pagination
+const buttonsPagination = document.querySelectorAll("[button-pagination]")
+if(buttonsPagination){
+    buttonsPagination.forEach(buttom => {
+        buttom.addEventListener("click", () =>{
+            const page = buttom.getAttribute("button-pagination");
+            url.searchParams.set("page", page);
+            window.location.href = url.href;
+        })
+    })
+}
+// End Pagination

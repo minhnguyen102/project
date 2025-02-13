@@ -3,19 +3,13 @@ const filterStatusHelper = require("../../helpers/filterStatus")
 const searchHelper = require("../../helpers/search")
 // [GET] /admin/products
 module.exports.index = async (req, res) => {
-
     let find = {
         deleted : false
     }
-
 //(Filter Status) Tính năng lọc trạng thái sản phẩm 
-    // Nếu tồn tại query status 
     if (req.query.status){
         find.status = req.query.status;
-    } /* <=> find {
-            deleted : false,
-            status : ["active" - "inactive" - ""]
-        }*/
+    }
     const filterStatus = filterStatusHelper(req.query)
 // End filerStatus
 
@@ -26,13 +20,30 @@ module.exports.index = async (req, res) => {
     }
 // End Search
 
-    const products = await Products.find(find)
+// Pagination
+    let objectPagination = {
+        limitItem : 5,
+        currentPage : 1,
+    }
 
-    
+    if(req.query.page){
+        objectPagination.currentPage = parseInt(req.query.page);
+    }
+    objectPagination.skip = (objectPagination.currentPage - 1) * objectPagination.limitItem;
+    const totalProduct = await Products.countDocuments(find);
+    const totalPage = Math.ceil(totalProduct / objectPagination.limitItem);
+    objectPagination.totalPage = totalPage;
+// End Pagination
+
+    const products = await Products.find(find)
+                            .limit(objectPagination.limitItem)
+                            .skip(objectPagination.skip)
+
     res.render("admin/page/products/index.pug",{
         pageTitle : "Trang products",
         products : products,
         filterStatus : filterStatus,
-        keyword : objectSearch.keyword
+        keyword : objectSearch.keyword,
+        objectPagination : objectPagination
     })
 }
