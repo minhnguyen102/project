@@ -23,7 +23,12 @@ module.exports.index = async (req, res) => {
 
 // Pagination
     const totalProduct = await Products.countDocuments(find);
-    const objectPagination = paginationHelper(req.query, totalProduct);
+    let objectPagination = paginationHelper(
+        {
+            limitItem : 5, // tránh truyền cứng số 5 khi ứng dụng vào các trang khác 
+            currentPage : 1,
+        },
+        req.query, totalProduct);
 // End Pagination
 
     const products = await Products.find(find)
@@ -37,4 +42,12 @@ module.exports.index = async (req, res) => {
         keyword : objectSearch.keyword,
         objectPagination : objectPagination
     })
+}
+
+// [PATCH] /admin/products/change-status/:status/:id
+module.exports.changeStatus = async (req, res) => {
+    const status = req.params.status;
+    const id = req.params.id;
+    await Products.updateOne({_id : id}, {status : status});
+    res.redirect('back');
 }

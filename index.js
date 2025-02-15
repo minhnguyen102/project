@@ -5,9 +5,15 @@ const router = require("./routes/client/index.router")
 const routerAdmin = require("./routes/admin/index.router")
 const app = express()
 const port = 3000
+const methodOverride = require("method-override") 
 
 database.connect();
 
+
+// methodOverride 
+app.use(methodOverride("_method"))
+
+// pugjs
 app.set("views", "./views")
 app.set("view engine", "pug")
 
@@ -25,6 +31,8 @@ app.use(express.static("public"))
 // App locals variables 
 const systemConfig = require("./config/system")
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
+
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${PORT}`)
