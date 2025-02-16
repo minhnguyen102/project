@@ -34,6 +34,7 @@ module.exports.index = async (req, res) => {
 // End Pagination
 
     const products = await Products.find(find)
+                            .sort({position : "desc"})
                             .limit(objectPagination.limitItem)
                             .skip(objectPagination.skip)
 
@@ -55,7 +56,7 @@ module.exports.changeStatus = async (req, res) => {
     res.redirect('back');
 }
 
-// [PATCH] /admin/product/change-multi
+// [PATCH] /admin/products/change-multi
 module.exports.changeMulti = async (req, res) => {
     const type = req.body.type;
     const ids = req.body.ids.split(",");
@@ -89,8 +90,8 @@ module.exports.changeMulti = async (req, res) => {
     }
     res.redirect("back");
 }
-
-// [DELETE] /admin/delete/:id
+    
+// [DELETE] /admin/products/delete/:id
 module.exports.deleteItem = async (req, res) => {
     const id = req.params.id;
     await Products.updateOne(
@@ -100,3 +101,28 @@ module.exports.deleteItem = async (req, res) => {
     req.flash("Success", "Xóa sản phẩm thành công.")
     res.redirect("back");
 } 
+
+// [GET] /admin/products/create
+module.exports.create = (req, res) => {
+    res.render("admin/page/products/create.pug");
+}
+
+// [POST] /admin/products/create
+module.exports.createPost = async (req, res) => {
+    req.body.price = parseInt(req.body.price);
+    req.body.discountPercentage = parseInt(req.body.discountPercentage);
+    req.body.stock = parseInt(req.body.stock);
+
+    const positon = req.body.position;
+    if(positon == ""){
+        const count = await Products.countDocuments();
+        req.body.position = count + 1;
+    }else{
+        req.body.position = parseInt(positon);
+    }
+
+    const product = new Products(req.body);
+    product.save();
+
+    res.redirect(`/admin/products`)
+}
