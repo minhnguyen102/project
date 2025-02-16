@@ -6,6 +6,9 @@ const routerAdmin = require("./routes/admin/index.router")
 const app = express()
 const port = 3000
 const methodOverride = require("method-override") 
+const flash = require("express-flash")
+const cookieParser = require('cookie-parser')
+const session = require('express-session')
 const bodyParser = require('body-parser')
 
 database.connect();
@@ -13,6 +16,11 @@ database.connect();
 
 // methodOverride 
 app.use(methodOverride("_method"))
+
+// flash 
+app.use(cookieParser('NKMTTL'));
+app.use(session({ cookie: { maxAge: 60000 }}));
+app.use(flash());;
 
 // body-parser
 app.use(bodyParser.urlencoded({ extended: false }))

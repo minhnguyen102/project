@@ -4,8 +4,10 @@ include ../../mixins/search.pug
 include ../../mixins/pagination.pug
 include ../../mixins/changeMulti.pug
 include ../../mixins/formHidden.pug
+include ../../mixins/alert.pug
 
 block main 
+    +alert(5000)
     h1 Trang danh sách sản phẩm admin
 
     .card.mb-3 
