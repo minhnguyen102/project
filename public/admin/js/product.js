@@ -65,7 +65,22 @@ if(buttonsChangeStatus.length > 0 ){
 
         })
     }
-
-
-
 // End Change multi
+
+// Delete product
+const buttonsDelete = document.querySelectorAll("[button-delete]");
+if(buttonsDelete) {
+    const formButtonDelete = document.querySelector("#form-button-delete");
+    const dataPath = formButtonDelete.getAttribute("data-path");
+    buttonsDelete.forEach(buttonDelete => {
+        buttonDelete.addEventListener("click", () => {
+            const id = buttonDelete.getAttribute("id-item");
+            const action = `${dataPath}/${id}?_method=DELETE`;
+            console.log(action)
+            formButtonDelete.action = action;
+            formButtonDelete.submit();
+        })
+    })
+}
+// End Delete product
+
