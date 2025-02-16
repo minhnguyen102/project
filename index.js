@@ -6,12 +6,16 @@ const routerAdmin = require("./routes/admin/index.router")
 const app = express()
 const port = 3000
 const methodOverride = require("method-override") 
+const bodyParser = require('body-parser')
 
 database.connect();
 
 
 // methodOverride 
 app.use(methodOverride("_method"))
+
+// body-parser
+app.use(bodyParser.urlencoded({ extended: false }))
 
 // pugjs
 app.set("views", "./views")
