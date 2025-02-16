@@ -50,6 +50,14 @@ if(buttonsChangeStatus.length > 0 ){
             e.preventDefault();
             const checkBoxMulti = document.querySelector("[checkbox-multi]");
             const inputsChecked = checkBoxMulti.querySelectorAll("input[name='id']:checked");
+            const typeChange = e.target.elements.type.value;
+
+            if(typeChange == "delete-all"){
+                const isConfirm = confirm("Bạn có muốn xóa những sản phẩm này ? ");
+                if(!isConfirm){
+                    return;
+                }
+            }
             if(inputsChecked.length > 0){
                 let ids = []
                 let idsInput = formChangeMulti.querySelector("input[name='ids']");
@@ -60,7 +68,7 @@ if(buttonsChangeStatus.length > 0 ){
                 idsInput.value = ids.join(",");
                 formChangeMulti.submit();
             }else{
-                alert("Bạn phải chọb ít nhất một sản phẩm");
+                alert("Bạn phải chọn ít nhất một sản phẩm");
             }
 
         })
@@ -74,11 +82,13 @@ if(buttonsDelete) {
     const dataPath = formButtonDelete.getAttribute("data-path");
     buttonsDelete.forEach(buttonDelete => {
         buttonDelete.addEventListener("click", () => {
-            const id = buttonDelete.getAttribute("id-item");
-            const action = `${dataPath}/${id}?_method=DELETE`;
-            console.log(action)
-            formButtonDelete.action = action;
-            formButtonDelete.submit();
+            const isConfirm = confirm("Bạn muốn xóa sản phẩm này ?");
+            if(isConfirm){
+                const id = buttonDelete.getAttribute("id-item");
+                const action = `${dataPath}/${id}?_method=DELETE`;
+                formButtonDelete.action = action;
+                formButtonDelete.submit();
+            }
         })
     })
 }
