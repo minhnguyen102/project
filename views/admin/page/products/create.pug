@@ -57,13 +57,22 @@ block main
                 min="0"
             )
         div(class="form-group")
-            label(for="thumbnail") Ảnh
+            label(
+                for="thumbnail"
+                upload-image
+                ) Ảnh
             input(
                 type="file"
                 class="form-control-file"
                 id="thumbnail"
                 name="thumbnail"
                 accept="image/*"
+                upload-image-imput
+            )
+            img(
+                src=""
+                upload-image-preview 
+                class="image-preview"
             )
         div(class="form-group")
             label(for="position") Vị trí
