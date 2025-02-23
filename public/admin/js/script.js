@@ -68,12 +68,23 @@ const uploadImage = document.querySelector("[upload-image]")
 if(uploadImage){
     const uploadImageInput = document.querySelector("[upload-image-imput]");
     const uploadImagePreview = document.querySelector("[upload-image-preview]");
+    const buttonClose = document.querySelector("#button-close-image")
 
     uploadImageInput.addEventListener("change", (e) => {
         const [file] =  e.target.files;
-        if(file)
+        if(file){
             uploadImagePreview.src = URL.createObjectURL(file)
+            buttonClose.style.display = "block"
+        }
     })
+    if(buttonClose){
+        buttonClose.addEventListener("click", () => {
+            uploadImagePreview.src = "";
+            uploadImageInput.value = "";
+            buttonClose.style.display = "none"
+        })
+    }
+    
 }
 // End Upload-image-preview
 

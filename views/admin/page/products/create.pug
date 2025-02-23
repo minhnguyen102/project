@@ -71,11 +71,13 @@ block main
                 accept="image/*"
                 upload-image-imput
             )
-            img(
-                src=""
-                upload-image-preview 
-                class="image-preview"
-            )
+            div(class= "image-container")
+                img(
+                    src=""
+                    upload-image-preview
+                    class="image-preview"
+                )
+                button(id="button-close-image") X
         div(class="form-group form-check form-check-inline")
             input(
                 type="radio"

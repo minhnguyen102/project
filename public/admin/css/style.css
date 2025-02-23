@@ -85,9 +85,35 @@
     border: 1px solid #ddd;
     padding: 8px;
     border-radius: 5px;
+    display: inline-block;
 }
 
 .image-preview[src=""]{
     display: none;
 }
 /* end upload-preview */
+
+
+/* Button close image */
+.image-container{
+    display :inline-block;
+    position: relative;
+}
+
+#button-close-image{
+    position: absolute;
+    top: 15px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    display: none;
+    /* display: block; */
+    display: none;
+    left: 127px;
+}
+
+#button-close-image:hover {
+    background:#ddd;
+}
+/* End Button close image */
+
