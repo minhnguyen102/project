@@ -81,7 +81,11 @@ block main
                                     id-item = item.id
                                     button-delete
                                     class="btn btn-danger btn-sm ml-1"
-                                    ) Xóa
+                                ) Xóa
+                                a(
+                                    href=`${prefixAdmin}/products/detail/${item.id}`
+                                    class="btn btn-info btn-sm ml-1"
+                                ) Chi tiết
     +pagination(objectPagination)
 
     +formHidden("form-change-status", `${prefixAdmin}/products/change-status`)
