@@ -27,7 +27,7 @@ app.use(flash());;
 app.use(bodyParser.urlencoded({ extended: false }))
 
 // pugjs
-app.set("views", "./views")
+app.set("views", `${__dirname}/views`)
 app.set("view engine", "pug")
 
 // router
@@ -40,7 +40,7 @@ const PORT = process.env.PORT;
   
 
 // STATIC FILE
-app.use(express.static("public"))
+app.use(express.static(`${__dirname}/public`))
 
 // App locals variables 
 const systemConfig = require("./config/system")
