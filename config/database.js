@@ -1,10 +1,14 @@
-const mongoose = require("mongoose")
+const mongoose = require('mongoose');
+require("dotenv").config();
 
 module.exports.connect = async () => {
     try {
-        await mongoose.connect("mongodb://127.0.0.1:27017/product-management");
-        console.log("Connect success");
-    } catch (error){
+        await mongoose.connect(process.env.MONGO_PORT);
+        console.log("Connect Success");
+    } catch (error) {
+        console.log(error)
         console.log("Connect Error");
     }
 }
+
+

@@ -11,6 +11,7 @@ const cookieParser = require('cookie-parser')
 const session = require('express-session')
 const bodyParser = require('body-parser')
 
+
 database.connect();
 
 
@@ -36,6 +37,7 @@ routerAdmin(app)
 // ENV 
 require("dotenv").config();
 const PORT = process.env.PORT;
+  
 
 // STATIC FILE
 app.use(express.static("public"))
