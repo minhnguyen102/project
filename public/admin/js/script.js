@@ -88,3 +88,39 @@ if(uploadImage){
 }
 // End Upload-image-preview
 
+
+// Sort
+const sort = document.querySelector("[sort]");
+if(sort){
+    const sortSelect = sort.querySelector("[sort-select]");
+    const sortClear = document.querySelector("[sort-clear]");
+    const url = new URL(window.location.href);
+    
+    sortSelect.addEventListener("change", (e) => {
+        const value = e.target.value;
+        let sortKey, valueKey;
+        [sortKey, valueKey] = value.split("-");
+        url.searchParams.set("sortKey", sortKey);
+        url.searchParams.set("valueKey", valueKey);
+
+        window.location.href = url.href;
+    })
+
+    // Button clear
+    sortClear.addEventListener("click", (e) => {
+        url.searchParams.delete("sortKey");
+        url.searchParams.delete("valueKey");
+        window.location.href = url.href;
+    })
+    // End Button clear
+
+    // Selected
+    const sortKey = url.searchParams.get("sortKey");
+    const valueKey = url.searchParams.get("valueKey");
+    const stringSort = `${sortKey}-${valueKey}`;
+    const optionSelected = sort.querySelector(`option[value = ${stringSort}]`);
+    optionSelected.selected = true;
+    // End Selected
+}
+// End Sort 
+
