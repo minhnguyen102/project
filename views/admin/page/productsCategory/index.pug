@@ -1,8 +1,19 @@
 extends ../../layouts/default.pug
 include ../../mixins/pagination.pug
+include ../../mixins/filterStatus.pug
+include ../../mixins/search.pug
 
 block main
-    h1 Trang danh sách sản phẩm 
+    h1 Trang danh mục sản phẩm 
+
+    .card.mb-3 
+        .card-header Bộ lọc và tìm kiếm 
+        .card-body 
+            .row
+                .col-6
+                    +filterStatus(filterStatus)
+                .col-6
+                    +search(keyword)
 
     .card.mb-3 
         .card-header Danh sách sản phẩm
@@ -76,3 +87,4 @@ block main
                                     ) Chi tiết
 
     +pagination(objectPagination)
+    script(src="/admin/js/product.js") 
