@@ -1,4 +1,5 @@
 const express = require('express')
+var path = require('path');
 const mongoose = require("mongoose")
 const database = require("./config/database")
 const router = require("./routes/client/index.router")
@@ -13,6 +14,10 @@ const bodyParser = require('body-parser')
 
 
 database.connect();
+
+// tiny MCE
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
+// End tiny MCE
 
 
 // methodOverride 

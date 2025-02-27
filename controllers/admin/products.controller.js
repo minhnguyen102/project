@@ -132,7 +132,7 @@ module.exports.createPost = async (req, res) => {
     console.log(product);
     product.save();
 
-    // res.redirect('back'); // option ở lại trang tạo sản phẩm
+
     res.redirect(`/admin/products`); // option trở lại trang sản phẩm
 }
 

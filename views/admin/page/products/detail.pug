@@ -29,7 +29,7 @@ block main
                 span(class ="badge badge-danger") Dừng hoạt động
                 
     if(product.description)
-        div(class="mb-4") #{product.description}
+        div(class="mb-4") !{product.description}
 
     a(
         href=`${prefixAdmin}/products/edit/${product.id}`
