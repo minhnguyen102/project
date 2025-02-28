@@ -2,6 +2,7 @@ const cloudinary = require('cloudinary').v2
 const streamifier = require('streamifier')
 
 
+// Kết nối tới cloud
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.API_KEY,

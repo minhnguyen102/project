@@ -103,11 +103,12 @@ module.exports.changeMulti = async (req, res) => {
 // [DELETE] /admin/products/delete/:id
 module.exports.deleteItem = async (req, res) => {
     const id = req.params.id;
+    // console.log(id);
     await Products.updateOne(
         {_id : id},
         {deleted : true},
     )
-    req.flash("Success", "Xóa sản phẩm thành công.")
+    req.flash("success", "Xóa sản phẩm thành công.")
     res.redirect("back");
 } 
 
@@ -159,9 +160,9 @@ module.exports.editPatch = async (req, res) =>{
     req.body.discountPercentage = parseInt(req.body.discountPercentage);
     req.body.stock = parseInt(req.body.stock);
  
-    if(req.file){
-        req.body.thumbnail = `/uploads/${req.file.filename}`;
-    }
+    // if(req.file){
+    //     req.body.thumbnail = `/uploads/${req.file.filename}`;
+    // }
 
     try {
         await Products.updateOne({

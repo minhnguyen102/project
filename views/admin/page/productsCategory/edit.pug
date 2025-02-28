@@ -1,14 +1,14 @@
-extends ../../layouts/default
+extends ../../layouts/default.pug
 include ../../mixins/alert.pug
 
-block main 
-    +alert(5000)
+block main
     +alert-error(5000)
-    h1(class="mb-4") Chỉnh sửa sản phẩm
+    +alert(5000)
+    h1(class="mb-4") Chỉnh sửa thông tin danh mục sản phẩm
 
     form(
-        action =`${prefixAdmin}/products/edit/${product.id}?_method=PATCH`
-        id="form-edit-product"
+        action =`${prefixAdmin}/products-category/edit/${record.id}?_method=PATCH`
+        id="form-edit-products-category"
         method="POST"
         enctype="multipart/form-data"
     )
@@ -20,7 +20,16 @@ block main
                 id="title"
                 name="title"
                 required
-                value=product.title
+                value=record.title
+            )
+        div(class="form-group")
+            label(for="title") Danh mục cha
+            input(
+                type="text"
+                class="form-control"
+                id="parent"
+                name="parent"
+                value=record.parent
             )
         div(class="form-group")
             label(for="desc") Mô tả
@@ -29,39 +38,7 @@ block main
                 name="description"
                 id="my-expressjs-tinymce-app"
                 rows="5"
-            ) !{product.description}
-        div(class="form-group")
-            label(for="price") Giá
-            input(
-                type="number"
-                class="form-control"
-                id="price"
-                name="price"
-                value=product.price
-                min="0"
-            )
-        div(class="form-group")
-            label(for="discountPercentage") % Giảm giá
-            input(
-                type="number"
-                class="form-control"
-                id="discountPercentage"
-                name="discountPercentage"
-                value=product.discountPercentage
-                min="0"
-            )
-        div(
-            class="form-group"
-        )
-            label(for="stock") Số lượng
-            input(
-                type="number"
-                class="form-control"
-                id="stock"
-                name="stock"
-                value=product.stock
-                min="0"
-            )
+            ) !{record.description}
         div(
             class="form-group"
             upload-image
@@ -79,23 +56,12 @@ block main
                 class= "image-container"
             )
                 img(
-                    src=product.thumbnail
+                    src=record.thumbnail
                     upload-image-preview
                     class="image-preview"
                 )
                 button(id="button-close-image") X
-                
-        div(class="form-group")
-            label(for="position") Vị trí
-            input(
-                type="number"
-                class="form-control"
-                id="position"
-                name="position"
-                placeholder="Tự động tăng"
-                min="1"
-                value=product.position
-            )
+             
         div(class="form-group form-check form-check-inline")
             input(
                 type="radio"
@@ -103,7 +69,7 @@ block main
                 id="statusActive"
                 name="status"
                 value="active"
-                checked=(product.status == "active" ? true : false)
+                checked = (record.status == "active"  ? true : false)
             )
             label(for="statusActive" class="form-check-lable") Hoạt động 
         div(class="form-group form-check form-check-inline")
@@ -113,7 +79,7 @@ block main
                 id="statusInactive"
                 name="status"
                 value="inactive"
-                checked=(product.status == "inactive" ? true : false)
+                checked = (record.status == "inactive" ? true : false)
             )
             label(for="statusInactive" class="form-check-lable") Dừng hoạt động 
         div(class="form-group")
@@ -122,8 +88,7 @@ block main
                 class="btn btn-primary"
             ) Cập nhật
 
-    script(src="/admin/js/product.js") 
-    //- <!-- Script element sourcing TinyMCE -->
+    script(src="/admin/js/products.js")
     <script type="application/javascript" src= "/tinymce/tinymce.min.js"></script>
     //- <!-- Script element sourcing the TinyMCE configuration -->
-    <script type="application/javascript" src= "/admin/js/my-tinymce-config.js"></script>
+    <script type="application/javascript" src= "/admin/js/my-tinymce-config.js"></script> 

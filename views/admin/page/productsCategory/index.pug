@@ -2,8 +2,11 @@ extends ../../layouts/default.pug
 include ../../mixins/pagination.pug
 include ../../mixins/filterStatus.pug
 include ../../mixins/search.pug
+include ../../mixins/formHidden.pug
+include ../../mixins/alert.pug
 
 block main
+    +alert(5000)
     h1 Trang danh mục sản phẩm 
 
     .card.mb-3 
@@ -16,7 +19,7 @@ block main
                     +search(keyword)
 
     .card.mb-3 
-        .card-header Danh sách sản phẩm
+        .card-header Danh sách danh mục 
             .card-body
                 .row 
                     .col-10
@@ -73,18 +76,20 @@ block main
                                         ) Dừng hoạt động
                                 td
                                     a(
-                                        href=`${prefixAdmin}/products/edit/${item.id}`
+                                        href=`${prefixAdmin}/products-category/edit/${item.id}`
                                         class="btn btn-warning btn-sm"
                                     ) Sửa
                                     button(
                                         class="btn btn-danger btn-sm ml-1"
-                                        data-id = item.id
+                                        id-item = item.id
                                         button-delete
                                     ) Xóa
                                     a(
-                                        href=`${prefixAdmin}/products/detail/${item.id}`
+                                        href=`${prefixAdmin}/products-category/detail/${item.id}`
                                         class="btn btn-secondary btn-sm ml-1"
                                     ) Chi tiết
 
     +pagination(objectPagination)
+    +formHidden("form-change-status", `${prefixAdmin}/products-category/change-status`)
+    +formHidden("form-button-delete", `${prefixAdmin}/products-category/delete`)
     script(src="/admin/js/product.js") 
