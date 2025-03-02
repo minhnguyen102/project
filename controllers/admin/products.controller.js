@@ -1,7 +1,9 @@
 const Products = require("../../models/product.model")
+const ProductCategory = require("../../models/productsCategory.model")
 const filterStatusHelper = require("../../helpers/filterStatus")
 const searchHelper = require("../../helpers/search")
 const paginationHelper = require("../../helpers/pagination")
+const createTreeHelper = require("../../helpers/createTree")
 
 
 // [GET] /admin/products
@@ -113,8 +115,15 @@ module.exports.deleteItem = async (req, res) => {
 } 
 
 // [GET] /admin/products/create
-module.exports.create = (req, res) => {
-    res.render("admin/page/products/create.pug");
+module.exports.create = async (req, res) => {
+    let find = {
+        deleted: false
+    }
+    const records = await ProductCategory.find(find);
+    const newRecords = createTreeHelper.tree(records);
+    res.render('admin/page/products/create',{
+        records: newRecords
+    });
 }
 
 // [POST] /admin/products/create
@@ -146,8 +155,12 @@ module.exports.edit = async (req, res) => {
             _id : id
         })
 
+        const records = await ProductCategory.find({deleted: false});
+        const newRecords = createTreeHelper.tree(records);
+
         res.render("admin/page/products/edit.pug",{
-            product : product
+            product : product,
+            records : newRecords
         })
     } catch (error) {
         res.redirect(`/admin/products`)
