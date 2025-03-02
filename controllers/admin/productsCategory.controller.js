@@ -2,6 +2,7 @@ const ProductCategory = require("../../models/productsCategory.model")
 const paginationHelper =  require("../../helpers/pagination")
 const filterStatusHelper =  require("../../helpers/filterStatus")
 const searchHelper =  require("../../helpers/search")
+const createTreeHelper = require("../../helpers/createTree")
 
 // [GET] /admin/products-category
 module.exports.index = async (req, res) =>{
@@ -20,7 +21,7 @@ module.exports.index = async (req, res) =>{
     const totalRecords = await ProductCategory.countDocuments(find);
     let objectPagination = paginationHelper(
         {
-            limitItem : 5, // tránh truyền cứng số 5 khi ứng dụng vào các trang khác 
+            limitItem : 7, // tránh truyền cứng số 5 khi ứng dụng vào các trang khác 
             currentPage : 1,
         },
         req.query, totalRecords);
@@ -37,9 +38,9 @@ module.exports.index = async (req, res) =>{
     const records = await ProductCategory.find(find)
                                     .limit(objectPagination.limitItem)
                                     .skip(objectPagination.skip)
-
+    const newRecords = createTreeHelper.tree(records);
     res.render("admin/page/productsCategory/index",{
-        records : records,
+        records : newRecords,
         filterStatus : filterStatus,
         objectSearch : objectSearch,
         keyword : keyword,
@@ -48,9 +49,17 @@ module.exports.index = async (req, res) =>{
 }
 
 // [GET] /admin/products-category/create
-module.exports.create = async(req, res) =>[
-    res.render("admin/page/productsCategory/create")
-]
+module.exports.create = async(req, res) =>{
+    let find = {
+        deleted : false
+    }
+    
+    const records = await ProductCategory.find(find);
+    const newRecords = createTreeHelper.tree(records);
+    res.render("admin/page/productsCategory/create",{
+        records : newRecords
+    })
+}
 
 // [POST] /admin/products-category/create
 module.exports.createPost = async(req, res) =>{
@@ -73,15 +82,22 @@ module.exports.changeStatus = async(req, res) => {
 
 // [GET] /admin/products-category/edit/:id
 module.exports.edit = async(req, res) =>{
-    const id = req.params.id;
-    const record = await ProductCategory.findOne({
-        _id : id,
-        deleted : false
-    })
-
-    res.render("admin/page/productsCategory/edit",{
-        record : record
-    })
+    try {
+        let find = {
+            deleted: false,
+            _id: req.params.id
+        }
+        const records = await ProductCategory.find({deleted : false});
+        const newRecords = createTreeHelper.tree(records);
+        const data = await ProductCategory.findOne(find);
+        res.render('admin/page/productsCategory/edit', {
+            pageTitle: "Trang chỉnh sửa danh mục sản phẩm",
+            data: data,
+            records: newRecords
+        });
+    } catch (error) {
+        res.redirect("/admin/products-category")
+    }
 }
 
 // [PATCH] /admin/products-category/edit/:id
@@ -110,7 +126,15 @@ module.exports.detail = async(req, res) => {
 // [DELETE] /admin/products-category/delete/:id
 module.exports.delete = async(req, res) =>{
     const id = req.params.id;
-    res.send("Ok");
+    await ProductCategory.updateOne(
+        {_id : id},
+        {
+            deleted : true,
+            deletedAt : new Date()
+        }
+    )
+    req.flash("success", "Xóa sản phẩm thành công");
+    res.redirect(`back`);
 }
 
 

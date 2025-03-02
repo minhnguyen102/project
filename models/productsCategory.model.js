@@ -4,7 +4,7 @@ mongoose.plugin(slug);
 
 const productCategorySchema = new mongoose.Schema({
     title: String,
-    parent: {
+    parent_id: {
         type: String,
         default : ""
     },
@@ -17,7 +17,6 @@ const productCategorySchema = new mongoose.Schema({
     stock: Number,
     thumbnail: String,
     status: String,
-    position: Number,
     deleted: {
         type : Boolean,
         default : false
