@@ -139,7 +139,6 @@ module.exports.createPost = async (req, res) => {
     }
 
     const product = new Products(req.body);
-    console.log(product);
     product.save();
 
 

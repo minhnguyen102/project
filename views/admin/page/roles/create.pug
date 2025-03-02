@@ -1,0 +1,41 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+
+block main
+    +alert-error(5000)
+    
+    h1(class="mb-4") Tạo mới quyền
+
+    form(
+        action =`${prefixAdmin}/roles/create`
+        method="POST"
+    )
+        div(class="form-group")
+            label(for="title") Tiêu đề
+            input(
+                type="text"
+                class="form-control"
+                id="title"
+                name="title"
+                required
+            )
+        div(class="form-group")
+            label(for="desc") Mô tả
+            textarea(
+                class="form-control textarea-mce"
+                name="description"
+                id="my-expressjs-tinymce-app"
+                rows="5"
+            )
+            
+        div(class="form-group")
+            button(
+                type="submit"
+                class="btn btn-primary"
+            ) Tạo mới
+
+    script(src="/admin/js/products.js") 
+    //- <!-- Script element sourcing TinyMCE -->
+    <script type="application/javascript" src= "/tinymce/tinymce.min.js"></script>
+    //- <!-- Script element sourcing the TinyMCE configuration -->
+    <script type="application/javascript" src= "/admin/js/my-tinymce-config.js"></script>
