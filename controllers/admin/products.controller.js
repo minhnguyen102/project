@@ -122,7 +122,8 @@ module.exports.create = async (req, res) => {
     const records = await ProductCategory.find(find);
     const newRecords = createTreeHelper.tree(records);
     res.render('admin/page/products/create',{
-        records: newRecords
+        records: newRecords,
+        pageTitle : "Trang tạo mới sản phẩm"
     });
 }
 
@@ -159,7 +160,8 @@ module.exports.edit = async (req, res) => {
 
         res.render("admin/page/products/edit.pug",{
             product : product,
-            records : newRecords
+            records : newRecords,
+            pageTitle : "Trang chỉnh sửa thông tin sản phẩmphẩm"
         })
     } catch (error) {
         res.redirect(`/admin/products`)
@@ -197,7 +199,8 @@ module.exports.detail = async (req, res) =>{
             deleted : false
         })
         res.render("admin/page/products/detail.pug", {
-            product : product
+            product : product,
+            pageTitle : "Trang thông tin chi tiết sản phẩm"
         })
     } catch (error) {
         res.redirect("/admin/products")

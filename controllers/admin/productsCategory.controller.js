@@ -119,6 +119,7 @@ module.exports.detail = async(req, res) => {
         deleted : false
     })
     res.render("admin/page/productsCategory/detail", {
+        pageTitle : "Trang chi tiết danh mục sản phẩm",
         record : record
     })
 }

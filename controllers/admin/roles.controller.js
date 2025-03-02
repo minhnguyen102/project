@@ -7,13 +7,16 @@ module.exports.index = async (req, res) => {
         deleted : false
     })
     res.render("admin/page/roles/index.pug",{
+        pageTitle : "Trang phân quyền",
         records : records
     })
 }
 
 // [GET] /admin/roles/create
 module.exports.create = (req, res) => {
-    res.render("admin/page/roles/create.pug")
+    res.render("admin/page/roles/create.pug",{
+        pageTitle : "Trang tạo mới quyền"
+    })
 }
 
 // [POST] /admin/roles/create
@@ -33,7 +36,8 @@ module.exports.edit = async (req, res) => {
     
         const record = await Role.findOne(find);
         res.render(`admin/page/roles/edit.pug`,{
-            record : record
+            record : record,
+            pageTitle : "Trang chỉnh sửa quyền"
         })
     } catch (error) {
         res.redirect(`${systemConfig.prefixAdmin}/roles`)
@@ -63,9 +67,9 @@ module.exports.detail = async (req, res) => {
             deleted : false
         }
         const record = await Role.findOne(find);
-        console.log(record);
         res.render("admin/page/roles/detail.pug",{
-            record : record
+            record : record,
+            pageTitle : "Trang thông tin chi tiết quyền"
         })
     } catch (error) {
         res.redirect(`${systemConfig.prefixAdmin}/roles`)
@@ -94,7 +98,6 @@ module.exports.permissions = async (req, res) => {
     const records = await Role.find({
         deleted : false
     });
-    console.log(records);
     res.render("admin/page/roles/permission.pug",{
         pageTitle : "Trang phân quyền",
         records : records
