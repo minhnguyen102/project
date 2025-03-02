@@ -5,3 +5,17 @@ mixin formHidden(id, path)
         id=id
         data-path=path
     ) 
+
+mixin formHiddenPermission(id, path)
+    form(
+        action=path
+        method="POST"
+        id=id
+        class="d-none"
+    )
+        div(clas="form-group")
+            input(
+                type="text"
+                class="form-control"
+                name="permissions"
+            )
