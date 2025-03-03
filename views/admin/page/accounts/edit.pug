@@ -1,0 +1,102 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+include ../../mixins/select-tree.pug
+
+block main
+    +alert-error(5000)
+    +alert(5000)
+    
+    h1(class="mb-4") Chỉnh sửa thông tin tài khoản
+
+    form(
+        action =`${prefixAdmin}/accounts/edit/${record.id}?_method=PATCH`
+        method="POST"
+        enctype="multipart/form-data"
+    )
+        div(class="form-group")
+            label(for="fullname") Họ tên *
+            input(
+                type="text"
+                class="form-control"
+                id="fullname"
+                name="fullname"
+                value=record.fullname
+            )
+        div(class="form-group")
+            label(for="email") Emai *
+            input(
+                type="text"
+                class="form-control"
+                id="email"
+                name="email"
+                value=record.email
+            )
+        div(class="form-group")
+            label(for="password") Mật khẩu *
+            input(
+                type="password"
+                class="form-control"
+                id="password"
+                name="password"
+            )
+        div(class="form-group")
+            label(
+                for="avatar"
+                upload-image
+            ) Avatar
+            input(
+                type="file"
+                class="form-control-file"
+                id="avatar"
+                name="avatar"
+                accept="image/*"
+                upload-image-input
+            )
+            div(
+                class= "image-container")
+                img(
+                    src=record.avatar
+                    upload-image-preview
+                    class="image-preview"
+                )
+                button(id="button-close-image") X
+        
+        div(class="form-group")
+            label(for="role_id") Phân quyền
+            select(
+                name="role_id"
+                id="role_id"
+                class="form-control"
+            )
+                option(disabled) -- Chọn --
+                each item in roles
+                    option(
+                        value=item.id
+                        selected = (item.id == record.role_id ? true : false)
+                    ) #{item.title}
+
+        div(class="form-group form-check form-check-inline")
+            input(
+                type="radio"
+                class="form-check-input"
+                id="statusActive"
+                name="status"
+                value="active"
+                checked = (record.status == "active" ? true : false)
+            )
+            label(for="statusActive" class="form-check-lable") Hoạt động 
+        div(class="form-group form-check form-check-inline")
+            input(
+                type="radio"
+                class="form-check-input"
+                id="statusInactive"
+                name="status"
+                value="inactive"
+                checked = (record.status == "inactive" ? true : false)
+            )
+            label(for="statusInactive" class="form-check-lable") Dừng hoạt động 
+        div(class="form-group")
+            button(
+                type="submit"
+                class="btn btn-primary"
+            ) Cập nhật
