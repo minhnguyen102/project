@@ -1,6 +1,6 @@
 // [GET] /admin/dashboard
-module.exports.index = (req, res) => {
+module.exports.index = async (req, res) => {
     res.render("admin/page/dashboard/index",{
-        pageTitle : "Trang dashboard"
+        pageTitle : "Trang dashboard",
     })
 }

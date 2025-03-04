@@ -7,14 +7,17 @@ html
 
 
     body 
-        include ../partials/header.pug
+        if(role.permissions.length > 0)
+            include ../partials/header.pug
 
-        .body 
+            .body 
 
-            include ../partials/silder.pug
-            
-            .main 
-                block main
+                include ../partials/silder.pug
+                
+                .main 
+                    block main
+        else 
+            h3 Không có quyền truy cập
 
         script(src="/admin/js/script.js") 
         script(src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js") 
