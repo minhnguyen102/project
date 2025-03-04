@@ -135,7 +135,6 @@ module.exports.detail = async (req, res)=>{
     }
     const account = await Account.findOne(find).select("-password -token");
     const roles = await Role.find({deleted : false})
-    console.log(roles);
     res.render("admin/page/accounts/detail.pug",{
         pageTitle : "Trang chi tiết tài khoản",
         account : account,
