@@ -6,6 +6,7 @@ include ../../mixins/changeMulti.pug
 include ../../mixins/formHidden.pug
 include ../../mixins/alert.pug
 include ../../mixins/sort.pug
+include ../../mixins/moment.pug
 
 block main 
     +alert(5000)
@@ -53,6 +54,8 @@ block main
                         th Tiêu đề
                         th Giá
                         th Trạng thái
+                        th Người tạo
+                        th Người sửa 
                         th Hành động 
                 tbody 
                     each item, index in products
@@ -87,6 +90,19 @@ block main
                                         span(class="badge badge-success") Hoạt động
                                     else 
                                         span(class="badge badge-danger") Dừng hoạt động
+                            td 
+                                p #{item.accountFullname}
+                                a(href=`${prefixAdmin}/products/create-by/${item.id}`) Chi tiết
+                            
+                            td  
+                                p #{item.updateFullname}
+                                a(href=`${prefixAdmin}/products/update-by/${item.id}`) Chi tiết
+                                //- - const updateBy = item.updateBy[item.updateBy.length - 1]
+                                //- if(updateBy)
+                                //-     p #{item.updateFullname}
+                                //-     p
+                                //-         +momentUpdate(updateBy.updateAt)
+
                             td
                                 if(role.permissions.includes("products_edit"))
                                     a(

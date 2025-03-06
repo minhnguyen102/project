@@ -12,6 +12,13 @@ const productSchema = new mongoose.Schema({
         slug: "title", // chuyển title thành slug
         unique: true
     },
+    createBy : {
+        account_id : String,
+        createAt : {
+            type : Date,
+            default : Date.now
+        }
+    },
     description: String,
     price: Number,
     discountPercentage: Number,
@@ -22,7 +29,16 @@ const productSchema = new mongoose.Schema({
         type : Boolean,
         default : false
     },
-    deleteAt: Date
+    deleteBy : {
+        account_id : String,
+        deleteAt : Date
+    },
+    updateBy : [
+        {
+            account_id : String,
+            updateAt : Date
+        }
+    ]
 },{timestamps : true}) // tự động thêm 2 trường thông tin là createdAt và updatedAt
 
 const Product = mongoose.model("Product", productSchema, "products")

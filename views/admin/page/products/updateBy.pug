@@ -1,0 +1,16 @@
+extends ../../layouts/default.pug
+include ../../mixins/moment.pug
+
+block main
+    if(product.title)
+        h1(class="mb-4") #{product.title}
+
+    if(infoAccount.fullname)
+        div(class="mb-4") Người tạo: #{infoAccount.fullname}
+
+    if(infoAccount.rolename)
+        div(class="mb-4") Quyền: <b>#{infoAccount.rolename}</b>
+    
+    if(infoAccount.timeUpdate)
+        div(class="mb-4") Thời gian :  
+            +momentCreate(infoAccount.timeUpdate)

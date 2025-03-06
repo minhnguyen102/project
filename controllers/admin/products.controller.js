@@ -1,9 +1,12 @@
 const Products = require("../../models/product.model")
 const ProductCategory = require("../../models/productsCategory.model")
+const Account = require("../../models/accounts.model")
+const Role = require("../../models/role.model")
 const filterStatusHelper = require("../../helpers/filterStatus")
 const searchHelper = require("../../helpers/search")
 const paginationHelper = require("../../helpers/pagination")
 const createTreeHelper = require("../../helpers/createTree")
+
 
 
 // [GET] /admin/products
@@ -49,6 +52,26 @@ module.exports.index = async (req, res) => {
                             .limit(objectPagination.limitItem)
                             .skip(objectPagination.skip)
 
+    for(const product of products){
+        const user = await Account.findOne({
+            _id : product.createBy.account_id
+        })
+        if(user){
+            product.accountFullname = user.fullname;
+        }
+
+        if(product.updateBy.length > 0){
+            const userRecentUpdate = product.updateBy[product.updateBy.length - 1];
+            const account_id = userRecentUpdate.account_id;
+            const account = await Account.findOne({
+                _id : account_id
+            })
+            if(account){
+                product.updateFullname = account.fullname;
+            }
+        }
+    }
+
     res.render("admin/page/products/index.pug",{
         pageTitle : "Trang products",
         products : products,
@@ -62,7 +85,18 @@ module.exports.index = async (req, res) => {
 module.exports.changeStatus = async (req, res) => {
     const status = req.params.status;
     const id = req.params.id;
-    await Products.updateOne({_id : id}, {status : status});
+    const updateBy = {
+        account_id : res.locals.user.id,
+        updateAt : new Date()
+    }
+    await Products.updateOne(
+        {_id : id}, 
+        {
+            status : status,
+            $push: {
+                updateBy : updateBy
+            }
+        });
     req.flash("success", "Thay đổi trạng thái sản phẩm thành công")
     res.redirect('back');
 }
@@ -91,7 +125,10 @@ module.exports.changeMulti = async (req, res) => {
                 { _id : {$in : ids} },
                 { $set : {
                     deleted : true,
-                    deleteAt : new Date()
+                    deleteBy : {
+                        account_id : res.locals.user.id,
+                        deleteAt : new Date()
+                    }
                 } },
             )
             req.flash("success", `Xóa thành công ${ids.length} sản phẩm`);
@@ -107,7 +144,13 @@ module.exports.deleteItem = async (req, res) => {
     const id = req.params.id;
     await Products.updateOne(
         {_id : id},
-        {deleted : true},
+        {
+            deleted : true,
+            deleteBy :{
+                account_id : res.locals.user.id,
+                deleteAt : new Date()
+            }
+        }
     )
     req.flash("success", "Xóa sản phẩm thành công.")
     res.redirect("back");
@@ -137,6 +180,11 @@ module.exports.createPost = async (req, res) => {
     } else {
         req.body.position = parseInt(req.body.position);
     }
+
+    req.body.createBy = {
+        account_id : res.locals.user.id
+    }
+    
 
     const product = new Products(req.body);
     product.save();
@@ -172,16 +220,22 @@ module.exports.editPatch = async (req, res) =>{
     req.body.price = parseInt(req.body.price);
     req.body.discountPercentage = parseInt(req.body.discountPercentage);
     req.body.stock = parseInt(req.body.stock);
- 
-    // if(req.file){
-    //     req.body.thumbnail = `/uploads/${req.file.filename}`;
-    // }
 
     try {
+        const updateBy = {
+            account_id : res.locals.user.id,
+            updateAt : new Date()
+        }
+
         await Products.updateOne({
             _id : req.params.id,
             deleted : false
-        }, req.body);
+        }, {
+            ...req.body,
+            $push : { // đây là lệnh push vào trong mảng updateBy của model
+                updateBy : updateBy
+            }
+        });
         req.flash("success", "Cập nhật thông tin sản phẩm thành công");
     } catch (error) {
         req.flash("error", "Cập nhật thông tin sản phẩm thất bại");
@@ -197,11 +251,73 @@ module.exports.detail = async (req, res) =>{
             _id : id,
             deleted : false
         })
+        const productCategory = await ProductCategory.findOne({_id : product.product_category_id});
         res.render("admin/page/products/detail.pug", {
             product : product,
+            productCategory : productCategory,
             pageTitle : "Trang thông tin chi tiết sản phẩm"
         })
     } catch (error) {
         res.redirect("/admin/products")
     }
+}
+
+
+// [GET] /admin/products/create-by/:id
+module.exports.createBy = async (req, res) =>{
+    const product_id = req.params.id;
+    let find = {
+        _id : product_id,
+        deleted : false
+    }
+    const product = await Products.findOne(find)
+
+    const account_id = product.createBy.account_id;
+    const accountCreate = await Account.findOne(
+        {_id : account_id,
+        deleted : false
+    }).select("fullname role_id")
+
+    const roleAccount = await Role.findOne({
+        _id : accountCreate.role_id
+    }).select("title")
+
+    console.log(product)
+    res.render("admin/page/products/createBy",{
+        product : product,
+        infoAccount : {
+            fullname : accountCreate.fullname,
+            rolename : roleAccount.title
+        }
+    })
+}
+
+// [GET] /admin/products/update-by/:id
+module.exports.updateBy = async (req, res) =>{
+    const product_id = req.params.id;
+    let find = {
+        _id : product_id,
+        deleted : false
+    }
+    const product = await Products.findOne(find)
+    const objUpdate = product.updateBy[product.updateBy.length - 1];
+    const account_id = objUpdate.account_id;
+
+    const accountUpdate = await Account.findOne(
+        {_id : account_id,
+        deleted : false
+    }).select("fullname role_id")
+
+    const roleAccount = await Role.findOne({
+        _id : accountUpdate.role_id
+    }).select("title")
+
+    res.render("admin/page/products/updateBy",{
+        product : product,
+        infoAccount : {
+            fullname : accountUpdate.fullname,
+            rolename : roleAccount.title,
+            timeUpdate : objUpdate.updateAt
+        }
+    })
 }

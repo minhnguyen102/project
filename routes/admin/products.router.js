@@ -33,4 +33,8 @@ router.patch(
 
 router.get("/detail/:id", controller.detail)
 
+router.get("/create-by/:id", controller.createBy)
+
+router.get("/update-by/:id", controller.updateBy)
+
 module.exports = router

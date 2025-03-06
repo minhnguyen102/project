@@ -1,6 +1,5 @@
 const express = require('express')
 var path = require('path');
-const mongoose = require("mongoose")
 const database = require("./config/database")
 const router = require("./routes/client/index.router")
 const routerAdmin = require("./routes/admin/index.router")
@@ -11,6 +10,7 @@ const flash = require("express-flash")
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
 const bodyParser = require('body-parser')
+const moment = require("moment");
 
 
 database.connect();
@@ -34,6 +34,9 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // pugjs
 app.set("views", `${__dirname}/views`)
 app.set("view engine", "pug")
+
+// moment
+app.locals.moment = moment;
 
 // router
 router(app);
