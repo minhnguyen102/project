@@ -22,7 +22,7 @@ module.exports.index = async (req, res) => {
 const totalAccount = await Account.countDocuments(find);
 let objectPagination = paginationHelper(
     {
-        limitItem : 2, // tránh truyền cứng số 5 khi ứng dụng vào các trang khác 
+        limitItem : 4, // tránh truyền cứng số 5 khi ứng dụng vào các trang khác 
         currentPage : 1,
     },
     req.query, totalAccount);

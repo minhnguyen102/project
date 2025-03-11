@@ -8,10 +8,13 @@ block main
                     h1(class="mb-4") #{product.title}
 
                 if(product.price)
-                    div(class="mb-4") Giá: <b>#{product.price}$</b>
+                    div(class="mb-4") Giá cũ: <b>#{product.price}$</b>
 
                 if(product.discountPercentage)
                     div(class="mb-4") Giảm giá: <b>#{product.discountPercentage}%</b>
+
+                if(product.priceNew)
+                    div(class="mb-4") Giá hiện tại: <b>#{product.priceNew}$</b>
 
                 if(product.stock)
                     div(class="mb-4") Còn lại: <b>#{product.stock}</b>
@@ -23,4 +26,21 @@ block main
                             style="width: 100px"
                         )
                 if(product.description)
-                    div(class="mb-4") #{product.description}
+                    div(class="mb-4") Mô tả : !{product.description}
+
+                form(
+                    action=`/card/add/${product.id}`
+                    method="POST"
+                )
+                    input(
+                        class="form-control mb-2"
+                        type="number"
+                        name="quantity"
+                        value="1"
+                        min="1"
+                        max=product.stock
+                    )
+                    button(
+                        type="submit"
+                        class="btn btn-success btn-block"
+                    ) Thêm vào giỏ hàng
