@@ -26,5 +26,5 @@ module.exports.index = async (req, res) => {
 
     // api
     // res.json(newProductsFeatured); // lay ra san pham noi bat 
-    // res.json(newProductsNew); // lay ra san pham moi
+    // res.json(newProductsNew); // lay ra san pham moi sắp xếp theo thơi gian
 }
