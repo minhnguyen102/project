@@ -10,7 +10,7 @@ mixin products-item(item)
                     .inner-featured Nổi bật
             .inner-content
                 a(href=`/products/detail/${item.slug}`)   
-                    h3.inner-title #{item.title}
+                    h3.inner-title #{item.title}    
                 .inner-price-new #{item.newPrice}$
                 .inner-price-old #{item.price}$
                 .inner-discount -#{item.discountPercentage}%

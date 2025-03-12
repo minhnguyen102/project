@@ -9,8 +9,8 @@ const productSchema = new mongoose.Schema({
     },
     slug:{
         type: String,
-        slug: "title", // chuyển title thành slug
-        unique: true
+        slug: "title", 
+        unique: true // chuyển title thành slug
     },
     createBy : {
         account_id : String,
