@@ -10,7 +10,7 @@ if(inputsQuantity.length > 0){
             const productId = input.getAttribute("item-id")
             const quantity = parseInt(input.value)
 
-            if (quantity > 1){
+            if (quantity > 0){
                 window.location.href = `/cart/update/${productId}/${quantity}`;
             }
         })

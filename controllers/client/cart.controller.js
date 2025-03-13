@@ -103,3 +103,19 @@ module.exports.update = async (req, res) =>{
     }
     res.redirect(`back`)
 }
+
+
+
+
+// delete bản ghi rác (Cân nhắc khi sử dụng đoạn này)
+module.exports.deleteCart = async (req, res) =>{
+    const carts = await Cart.find() 
+    for (const cart of carts) {
+        if(cart.products.length == 0){
+            const cart_id = cart.id;
+            res.clearCookie("cartId");
+            await Cart.deleteOne({_id : cart_id})
+        }
+    }
+    res.redirect("back")
+}
