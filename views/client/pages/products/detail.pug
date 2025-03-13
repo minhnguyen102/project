@@ -20,6 +20,8 @@ block main
 
                 if(product.stock)
                     div(class="mb-4") Còn lại: <b>#{product.stock}</b>
+                else 
+                    div(class="mb-4") Hết hàng
                 
                 if (product.thumbnail)
                     div(class="mb-4")
@@ -30,19 +32,20 @@ block main
                 if(product.description)
                     div(class="mb-4") Mô tả : !{product.description}
 
-                form(
-                    action=`/cart/add/${product.id}`
-                    method="POST"
-                )
-                    input(
-                        class="form-control mb-2"
-                        type="number"
-                        name="quantity"
-                        value="1"
-                        min="1"
-                        max=product.stock
+                if(product.stock)
+                    form(
+                        action=`/cart/add/${product.id}`
+                        method="POST"
                     )
-                    button(
-                        type="submit"
-                        class="btn btn-success btn-block"
-                    ) Thêm vào giỏ hàng
+                        input(
+                            class="form-control mb-2"
+                            type="number"
+                            name="quantity"
+                            value="1"
+                            min="1"
+                            max=product.stock
+                        )
+                        button(
+                            type="submit"
+                            class="btn btn-success btn-block"
+                        ) Thêm vào giỏ hàng
