@@ -1,6 +1,8 @@
 extends ../../layouts/default.pug
+include ../../mixins/alert.pug
 
 block main
+    +alert(2000)
     .container.my-3 
         .row 
             .col-12
@@ -29,7 +31,7 @@ block main
                     div(class="mb-4") Mô tả : !{product.description}
 
                 form(
-                    action=`/card/add/${product.id}`
+                    action=`/cart/add/${product.id}`
                     method="POST"
                 )
                     input(

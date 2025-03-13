@@ -38,6 +38,9 @@ app.set("view engine", "pug")
 // moment
 app.locals.moment = moment;
 
+// STATIC FILE : 
+app.use(express.static(`${__dirname}/public`))
+
 // router
 router(app);
 routerAdmin(app)
@@ -45,10 +48,7 @@ routerAdmin(app)
 // ENV 
 require("dotenv").config();
 const PORT = process.env.PORT;
-  
 
-// STATIC FILE
-app.use(express.static(`${__dirname}/public`))
 
 // App locals variables 
 const systemConfig = require("./config/system")

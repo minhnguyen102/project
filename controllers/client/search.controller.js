@@ -1,6 +1,7 @@
 const Product = require("../../models/product.model")
 const ProductHelper = require("../../helpers/product")
 
+// [GET] /search
 module.exports.index = async (req, res) =>{
     const keyword = req.query.keyword;
     let newProducts = []
@@ -13,7 +14,7 @@ module.exports.index = async (req, res) =>{
                 title: keywordRegex,
                 status: "active",
                 deleted: false
-            });
+            }).select("-createBy -updateBy");
 
             newProducts = ProductHelper.priceNewProduct(products);
             console.log(newProducts);
