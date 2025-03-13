@@ -18,13 +18,13 @@ module.exports.index = async (req, res) => {
     }).sort({createdAt : "desc"}).limit(6).select("-createBy -updateBy")
     const newProductsNew = productsHelper.priceNewProduct(productsNew);
 
-    // res.render("client/pages/home/index",{
-    //     pageTitle : "Trang chủ",
-    //     productsFeatured : newProductsFeatured,
-    //     newProductsNew : newProductsNew
-    // })
+    res.render("client/pages/home/index",{
+        pageTitle : "Trang chủ",
+        productsFeatured : newProductsFeatured,
+        newProductsNew : newProductsNew
+    })
 
     // api
-    res.json(newProductsFeatured); // lay ra san pham noi bat 
+    // res.json(newProductsFeatured); // lay ra san pham noi bat 
     // res.json(newProductsNew); // lay ra san pham moi sắp xếp theo thơi gian
 }
