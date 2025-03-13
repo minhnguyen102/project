@@ -14,14 +14,14 @@ module.exports.index = async (req, res) =>  {
         return item;
     })
 
-    res.render("client/pages/products/index",{
-        pageTitle : "Trang sản phẩm",
-        products : newProducts
-    })
+    // res.render("client/pages/products/index",{
+    //     pageTitle : "Trang sản phẩm",
+    //     products : newProducts
+    // })
 
     // api
     // console.log(newProducts);
-    // res.json(newProducts);
+    res.json(newProducts);
 }
 
 // [GET] /products/:slugCategory
@@ -42,13 +42,13 @@ module.exports.category = async (req, res) =>{
 
     const newProducts = productsHelper.priceNewProduct(products);
 
-    res.render('client/pages/products/index', {
-        pageTitle : productCategory.title,
-        products : newProducts
-    });
+    // res.render('client/pages/products/index', {
+    //     pageTitle : productCategory.title,
+    //     products : newProducts
+    // });
 
     //api 
-    // res.json(products);
+    res.json(products);
 }
 
 // [GET] /products/detail/:slug
@@ -61,12 +61,12 @@ module.exports.detail = async (req, res) =>{
             status : "active"
         }).select("-updateBy -createBy")
         product.priceNew = productsHelper.priceNew(product);
-        res.render("client/pages/products/detail",{
-            product : product
-        })
+        // res.render("client/pages/products/detail",{
+        //     product : product
+        // })
 
         // api
-        // res.json(product);
+        res.json(product);
     } catch (error) {
         res.redirect("/products")
     }
