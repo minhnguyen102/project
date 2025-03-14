@@ -6,7 +6,7 @@ header.header
             .col-3 
                 .inner-logo 
                     a(href="/")
-                        img(src="/images/images.png", alt="logo") 
+                        img(src="/images/fresh-garden.jpg", alt="logo") 
 
             .col-5 
                 form(
@@ -39,3 +39,5 @@ header.header
                                 +sub-menu(productsCategory, pathProducts)
                         li
                             a(href="/cart") Giỏ hàng (#{miniCart ? miniCart.totalOrder : "0"})
+                        li
+                            a(href="/user/register") Đăng ký

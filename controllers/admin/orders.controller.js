@@ -21,7 +21,7 @@ module.exports.index = async (req, res) => {
 
 // [GET] /admin/detail/:orderId
 module.exports.detail = async (req, res) => {
-    console.log(req.params.orderId);
+    // console.log(req.params.orderId);
     const order = await Order.findOne({
         _id : req.params.orderId
     })
