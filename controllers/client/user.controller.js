@@ -1,5 +1,6 @@
 const md5 = require("md5")
 const User = require("../../models/user.model")
+const Cart = require("../../models/cart.model")
 // [GET] /user/register
 module.exports.register = (req, res) => {
     res.render('client/pages/user/register', {
@@ -35,7 +36,7 @@ module.exports.login = async (req, res) => {
 
 // [POST] /user/loginPost
 module.exports.loginPost = async (req, res) => {
-    // console.log(req.body);
+
     const email = req.body.email;
     const password = req.body.password;
 
@@ -60,7 +61,20 @@ module.exports.loginPost = async (req, res) => {
         return;
     }
 
+    const cart = await Cart.updateOne(
+        {_id : req.cookies.cartId},
+        {
+            user_id : user.id
+        }
+    )
+
     res.cookie("tokenUser", user.tokenUser)
 
     res.redirect("/")
+}
+
+// [GET] /user/logout
+module.exports.logout = async (req, res) => {
+    res.clearCookie("tokenUser");
+    res.redirect("/user/login")
 }
