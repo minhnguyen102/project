@@ -4,39 +4,38 @@ include ../../mixins/alert.pug
 include ../../mixins/products-layout.pug
 
 block main
-    +alert(5000)
     +alert-error(5000)
 
     .container.my-5 
-        .row.justify-content-center 
-            .col-8
-                h1(class="text-center") Đăng nhập 
+        .row.justify-content-center
+            .col-8 
+                h1(class="text-center") Xác thực otp
                 form(
-                    action="/user/login"
+                    action="/user/password/otp"
                     method="POST"
                 )
                     div(class="form-group")
-                        lable(for="email") Email 
+                        label(for="email") Email
                         input(
-                            type="email"
+                            type="text"
                             class="form-control"
                             id="email"
                             name="email"
+                            value=email
                             required
+                            readonly
                         )
-
                     div(class="form-group")
-                        lable(for="password") Password
+                        label(for="otp") OTP
                         input(
-                            type="password"
+                            type="text"
                             class="form-control"
-                            id="password"
-                            name="password"
+                            id="otp"
+                            name="otp"
                             required
                         )
                     div(class="form-group")
                         button(
                             type="submit"
                             class="btn btn-primary btn-block"
-                        ) Đăng nhập
-                a(href="/user/password/forgot") Quên mật khẩu ? 
+                        ) Gửi xác nhận
