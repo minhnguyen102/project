@@ -2,6 +2,8 @@ const express = require('express')
 var path = require('path');
 const database = require("./config/database")
 const router = require("./routes/client/index.router")
+var cors = require('cors')
+const routerApi = require("./api/v1/routes/index.router")
 const routerAdmin = require("./routes/admin/index.router")
 const app = express()
 const port = 3000
@@ -19,6 +21,7 @@ database.connect();
 app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 // End tiny MCE
 
+app.use(cors())
 
 // methodOverride 
 app.use(methodOverride("_method"))
@@ -31,6 +34,9 @@ app.use(flash());;
 // body-parser
 app.use(bodyParser.urlencoded({ extended: false }))
 
+// parse application/json
+app.use(bodyParser.json())
+
 // pugjs
 app.set("views", `${__dirname}/views`)
 app.set("view engine", "pug")
@@ -42,7 +48,8 @@ app.locals.moment = moment;
 app.use(express.static(`${__dirname}/public`))
 
 // router
-router(app);
+// router(app);
+routerApi(app);
 routerAdmin(app)
 
 // ENV 
