@@ -30,6 +30,7 @@ module.exports.category = async (req, res) =>{
         deleted : false
     })
 
+    
     // lấy ra danh sách id các thư mục con 
     const listCategory = await ProductsCategoryHelper.getSubCategory(productCategory.id);
     const listCategoryId = listCategory.map(item => item.id);
@@ -38,17 +39,14 @@ module.exports.category = async (req, res) =>{
     const products = await Product.find({
         product_category_id : { $in : [productCategory.id, ...listCategoryId]},
         deleted : false
-    }).select("-createBy -updateBy")
+    }).select("-createBy -updateBy").lean();
 
     const newProducts = productsHelper.priceNewProduct(products);
 
-    res.render('client/pages/products/index', {
-        pageTitle : productCategory.title,
+    res.json({
+        code : 200,
         products : newProducts
-    });
-
-    //api 
-    // res.json(products);
+    })
 }
 
 // [GET] /products/detail/:slug

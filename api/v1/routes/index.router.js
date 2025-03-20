@@ -4,6 +4,7 @@ const searchRouter = require("./search.router")
 const userRouter = require("./user.router")
 const cartRouter = require("./cart.router")
 const checkoutRouter = require("./checkout.router")
+const categoryRouter = require("./category.router")
 
 const middlewareAuth = require("../middlewares/auth.middleware")
 
@@ -14,6 +15,8 @@ module.exports = (app) => {
     app.use(version + "/", homeRouter)
 
     app.use(version + "/products", productRouter)
+
+    app.use(version + "/categorys", categoryRouter)
 
     app.use(version + "/search", searchRouter)
 
