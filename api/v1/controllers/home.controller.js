@@ -10,13 +10,13 @@ module.exports.index = async (req, res) => {
         status : "active"
     }
 
-    const productsFeatured = await Product.find(find).limit(6).select("-createBy -updateBy");
+    const productsFeatured = await Product.find(find).limit(1010).select("-createBy -updateBy");
     const newProductsFeatured = productsHelper.priceNewProduct(productsFeatured);
 
     const productsNew = await Product.find({
         deleted : false,
         status : "active"
-    }).sort({createdAt : "desc"}).limit(6).select("-createBy -updateBy")
+    }).sort({createdAt : "desc"}).limit(10).select("-createBy -updateBy")
     const newProductsNew = productsHelper.priceNewProduct(productsNew);
 
     res.json({
