@@ -99,7 +99,8 @@ module.exports.loginPost = async (req, res) => {
         code : 200,
         message : "Đăng nhập thành công",
         tokenUser : tokenUser,
-        cartId : cartId
+        cartId : cartId,
+        userName : user.fullName
     })
 }
 
