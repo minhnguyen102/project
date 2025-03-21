@@ -10,7 +10,7 @@ module.exports.index = async (req, res) => {
         status : "active"
     }
 
-    const productsFeatured = await Product.find(find).limit(1010).select("-createBy -updateBy");
+    const productsFeatured = await Product.find(find).limit(10).select("-createBy -updateBy");
     const newProductsFeatured = productsHelper.priceNewProduct(productsFeatured);
 
     const productsNew = await Product.find({
