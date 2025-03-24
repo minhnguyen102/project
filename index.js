@@ -1,10 +1,13 @@
+const { createServer } = require('node:http');
+const { join } = require('node:path');
+const { Server } = require('socket.io');
 const express = require('express')
 var path = require('path');
 const database = require("./config/database")
-const router = require("./routes/client/index.router")
+const router = require("./routes/client/index.router") // router client (severSide)
 var cors = require('cors')
 const routerApi = require("./api/v1/routes/index.router")
-const routerAdmin = require("./routes/admin/index.router")
+const routerAdmin = require("./routes/admin/index.router") // router client(clientSide)
 const app = express()
 const port = 3000
 const methodOverride = require("method-override") 
@@ -15,11 +18,20 @@ const bodyParser = require('body-parser')
 const moment = require("moment");
 
 
+
 database.connect();
 
 // tiny MCE
 app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 // End tiny MCE
+
+//socketIO
+const server = createServer(app);
+const io = new Server(server);
+
+io.on("connection", (socket) => {
+  console.log('a user connected', socket.id)
+})
 
 app.use(cors())
 
@@ -63,6 +75,6 @@ app.locals.prefixAdmin = systemConfig.prefixAdmin;
 
 
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Example app listening on port ${PORT}`)
 })
