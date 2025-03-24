@@ -25,14 +25,8 @@ database.connect();
 app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 // End tiny MCE
 
-//socketIO
-const server = createServer(app);
-const io = new Server(server);
 
-io.on("connection", (socket) => {
-  console.log('a user connected', socket.id)
-})
-
+// CORS
 app.use(cors())
 
 // methodOverride 
@@ -58,6 +52,11 @@ app.locals.moment = moment;
 
 // STATIC FILE : 
 app.use(express.static(`${__dirname}/public`))
+
+//socketIO
+const server = createServer(app);
+const io = new Server(server);
+global._io = io;
 
 // router
 // router(app);

@@ -21,8 +21,8 @@ module.exports = (app) =>{
     app.use(PATH_ADMIN + "/accounts", auth.requireAuth, accountsRouter)
     app.use(PATH_ADMIN + "/auth", authsRouter)
     app.use(PATH_ADMIN + "/my-account", auth.requireAuth, myAccountRouter)
-    app.use(PATH_ADMIN + '/orders',auth.requireAuth, orderRoutes);
-    app.use(PATH_ADMIN + '/chat',auth.requireAuth, chatRoutes);
+    app.use(PATH_ADMIN + '/orders', auth.requireAuth, orderRoutes);
+    app.use(PATH_ADMIN + '/chat', auth.requireAuth, chatRoutes);
 }
 
  

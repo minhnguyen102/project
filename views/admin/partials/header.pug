@@ -12,6 +12,11 @@ header.header
                     ) #{user.fullname}
 
                     a(
+                        href=`${prefixAdmin}/chat`
+                        class="btn btn-success btn-sm mr-2"
+                    ) Chat
+
+                    a(
                         href=`${prefixAdmin}/auth/logout`
                         class="btn btn-danger btn-sm"
                     ) Đăng xuất
