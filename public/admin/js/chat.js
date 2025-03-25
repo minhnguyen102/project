@@ -9,3 +9,27 @@ formSendMessage.addEventListener("submit", (e) =>{
     }
 })
 // END CLIENT_SEND_MESSAGE
+
+// SERVER_RETURN_MESSAGE
+socket.on("SERVER_RETURN_MESSAGE", (data) => {
+    if(data){
+        const bodyChat = document.querySelector(".chat .inner-body"); // sau sẽ từ bodyChat.appendChild
+        const my_id = document.querySelector("[my-id]").getAttribute("my-id");  
+        let htmlFullName = ""
+
+        const div = document.createElement("div");
+        if(my_id == data.user_id){
+            div.classList.add("inner-outgoing")
+        }else{
+            div.classList.add("inner-comming")
+            htmlFullName = `<div class="inner-name">${data.fullname}</div>`
+        }
+        
+        div.innerHTML = `
+            ${htmlFullName}
+            <div class="inner-content">${data.content}</div>
+        `
+        bodyChat.appendChild(div);
+    }
+})
+// END SERVER_RETURN_MESSAGE

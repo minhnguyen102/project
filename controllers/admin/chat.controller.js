@@ -5,6 +5,7 @@ const Account = require("../../models/accounts.model")
 module.exports.index = async (req, res) => {
 
     const user_id = res.locals.user.id;
+    const fullname = res.locals.user.fullname;
     
     //SOCKET (once : tránh tạo kết nối mới nhiều lần sau khi load lại trang web)
     _io.once("connection", (socket) => {
@@ -14,8 +15,14 @@ module.exports.index = async (req, res) => {
                 user_id : user_id,
                 content : content
             });
-
             await chat.save();
+
+            // SERVER_RETURN_MESSAGE
+            _io.emit("SERVER_RETURN_MESSAGE", {
+                user_id : user_id,
+                fullname : fullname,
+                content : content
+            })
         })
     })
 
@@ -29,7 +36,6 @@ module.exports.index = async (req, res) => {
         }).select("fullname")
         
         chat.inforUser = inforUser;
-        
     }
     
     //END SOCKET

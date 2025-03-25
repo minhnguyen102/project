@@ -12,7 +12,7 @@ block main
         button.chat-button
           i.fas.fa-comments
         .chat-widget
-          .chat 
+          .chat(my-id = user.id)
             .inner-body 
               each chat in chats
                 div(class=(chat.inforUser.id == user.id) ? "inner-outgoing" : "inner-comming")
