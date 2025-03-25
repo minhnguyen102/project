@@ -14,26 +14,12 @@ block main
         .chat-widget
           .chat 
             .inner-body 
-              .inner-comming 
-                .inner-name Em Yêu
-                .inner-content 
-                  | A ơi sang nhà em nha, nhà em không có ai ở nhà cả
-              .inner-outgoing
-                .inner-content 
-                  | Thế à ? Oki em iu
-
-              .inner-comming 
-                .inner-name Em Yêu
-                .inner-content 
-                  | Nhanh nha, nhanh nha
-              .inner-outgoing
-                .inner-content 
-                  | Anh đến rồi nhưng có thấy ai ở cửa đâu? Nhà khóa cửa mà :(
-
-              .inner-comming 
-                .inner-name Em Yêu
-                .inner-content 
-                  | Thì em bảo khong có ai ở nhà mà :)
+              each chat in chats
+                div(class=(chat.inforUser.id == user.id) ? "inner-outgoing" : "inner-comming")
+                  if(chat.inforUser.id != user.id)
+                    .inner-name #{chat.inforUser.fullname}
+                  .inner-content 
+                    | #{chat.content}
             .inner-foot
               form(
                 class="inner-form"
@@ -43,6 +29,7 @@ block main
                   type="text"
                   placeholder="Nhập nội dung...."
                   name="content"
+                  autocomplete="off"
                 )
                 button
                   i.fa-solid.fa-paper-plane
