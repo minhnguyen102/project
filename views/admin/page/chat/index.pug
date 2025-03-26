@@ -31,6 +31,7 @@ block main
                   name="content"
                   autocomplete="off"
                 )
+                span(class="btn-icon") <i class="fa-solid fa-face-smile"></i> 
                 button
                   i.fa-solid.fa-paper-plane
 
@@ -39,4 +40,7 @@ block main
       var chatWidget = document.querySelector('.chat-widget');
       chatWidget.style.display = chatWidget.style.display === 'none' ? 'block' : 'none';
     });
+
+  div(class="tooltip" role="tooltip")
+    emoji-picker
 

@@ -304,6 +304,8 @@
 .inner-form {
   display: flex;
   width: 100%;
+  align-items: center;
+  justify-content: center;
 }
 
 .inner-form input[type="text"] {
@@ -326,6 +328,12 @@
   cursor: pointer;
 }
 
+.inner-form .btn-icon{
+  cursor: pointer;
+  color:  #ff99b8; 
+  margin-right: 5px;
+}
+
 .inner-form button i {
   font-size: 1.2em;
 }
@@ -336,3 +344,13 @@
     border-top: 1px solid #ccc;
 }
 
+
+/* emoji-picker */
+.tooltip {
+  visibility: hidden;
+}
+.tooltip.shown {
+  visibility: visible;
+  opacity: 1;
+}
+/* End emoji-picker */
