@@ -51,7 +51,6 @@ if (bodyChat) {
 }
 // End Scroll
 
-
 // showTyping
 var timeOut;
 const showTyping = () => {
@@ -96,7 +95,7 @@ if (emojiPicker) {
         showTyping();
     })
 }
-// end emoji-picker
+// End emoji-picker
 
 // SEVER_RETURN_TYPING
 const listTyping = document.querySelector(".chat .inner-body .inner-list-typing");
@@ -134,3 +133,10 @@ if (listTyping) {
     })
 }
 // END SEVER_RETURN_TYPING
+
+// FileUploadWithPreview
+// const upload = new FileUploadWithPreview.FileUploadWithPreview('my-unique-id');
+// if(upload){
+//     console.log(upload.cachedFileArray)
+// }
+// End FileUploadWithPreview

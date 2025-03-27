@@ -6,6 +6,8 @@ block main
     .row 
       .col-12 
         +box-head(pageTitle)
+    
+    include ../../partials/list-button-user.pug
 
     .row 
       .col-12 
@@ -32,6 +34,7 @@ block main
                   name="content"
                   autocomplete="off"
                 )
+                
                 span(class="btn-icon") <i class="fa-solid fa-face-smile"></i> 
                 button
                   i.fa-solid.fa-paper-plane
@@ -44,4 +47,6 @@ block main
 
   div(class="tooltip" role="tooltip")
     emoji-picker
+  //- div(class="custom-file-container" data-upload-id="my-unique-id")
+
 

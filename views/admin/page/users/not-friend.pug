@@ -1,0 +1,31 @@
+extends ../../layouts/default.pug
+
+block main
+	h1 #{pageTitle}
+	include ../../partials/list-button-user
+
+	.row 
+		each  user in users
+			.col-6 
+				div(class="box-user")
+					div(class="inner-avatar")
+						img(
+							src=user.avatar
+							alt=""
+						)
+					div(class="inner-infor")
+						div(class="inner-name") #{user.fullname} - #{user.roleName.title}
+						div(class="inner-buttons")
+							button(
+								class="btn btn-sm btn-primary mr-2"
+								button-add-friend=user.id
+							) Thêm
+							button(
+								class="btn btn-sm btn-secondary mr-2"
+								button-cancel-friend=user.id
+							) Hủy
+					
+
+					
+					
+	
