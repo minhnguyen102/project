@@ -23,6 +23,6 @@
             if(role.permissions.includes("accounts_view")) 
                 li 
                     a(href=`${prefixAdmin}/accounts`) Danh sách tài khoản
-            
-            li 
-                a(href=`${prefixAdmin}/orders`) Danh sách đơn hàng
+            if(role.permissions.includes("orders_view")) 
+                li 
+                    a(href=`${prefixAdmin}/orders`) Danh sách đơn hàng
