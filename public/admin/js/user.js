@@ -47,3 +47,20 @@ if(btnsRefuseFriend.length > 0){
     })
 }
 // End Chức năng từ chối kết bạn
+
+// Chức năng đồng ý kết bạn
+const btnsAcceptFriend = document.querySelectorAll("[btn-accept-friend]")
+if(btnsAcceptFriend.length > 0){
+    btnsAcceptFriend.forEach(btn => {
+        btn.addEventListener("click", () => {
+            //Ẩn đi khối +  lấy ra userId
+            btn.closest(".box-user").classList.add("accepted")
+            const userId = btn.getAttribute("btn-accept-friend");
+            
+            // tạo sự kiện gửi lên sever userId
+            socket.emit("CLIENT_ACCEPT_FRIEND", userId);
+            console.log("oke")
+        })
+    })
+}
+// End Chức năng đồng ý kết bạn
