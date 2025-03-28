@@ -8,6 +8,10 @@ const orderSchema = new mongoose.Schema({
         phone : String,
         address : String
     },
+    accept : {
+        type : Boolean,
+        default : false
+    },
     products : [
         {
             product_id : String,

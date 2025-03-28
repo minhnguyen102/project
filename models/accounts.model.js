@@ -9,6 +9,14 @@ const accountSchema = new mongoose.Schema({
         type : String,
         default : generateHelper.generateRandomString(20)
     },
+    acceptFriends : Array,
+    requestFriends : Array,
+    FriendList : [
+        {
+            user_id : String,
+            room_chat_id : String
+        }
+    ],
     avatar : String,
     role_id : String,
     status : String,

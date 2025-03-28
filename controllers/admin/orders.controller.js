@@ -5,7 +5,9 @@ const productHelper = require("../../helpers/product")
 // [GET] /admin/order/index
 module.exports.index = async (req, res) => {
 
-    const orders = await Order.find();
+    const orders = await Order.find({
+        accept : false
+    });
     for(const order of orders){
         for(const item of order.products){
             item.totalPrice = productHelper.priceNew(item) * item.quantity;
@@ -13,9 +15,14 @@ module.exports.index = async (req, res) => {
         order.totalPrice = order.products.reduce((sum, item) => sum + item.totalPrice, 0)
     }
 
+    const countOrderAccept = await Order.countDocuments({
+        accept : true
+    })
+
     res.render('admin/page/orders/index', {
         pageTitle : "Trang danh sách đơn hàng",
-        orders : orders
+        orders : orders,
+        countOrderAccept : countOrderAccept
     });
 }
 
@@ -43,4 +50,36 @@ module.exports.detail = async (req, res) => {
         pageTitle : "Chi tiết đơn hàng",
         order : order
     });
+}
+
+// [GET] /admin/orders/accept
+module.exports.accept = async(req, res) =>{
+    const ordersAccept = await Order.find({
+        accept : true
+    })
+
+    for(const orderAccept of ordersAccept){
+        for(const item of orderAccept.products){
+            item.totalPrice = productHelper.priceNew(item) * item.quantity;
+        }
+        orderAccept.totalPrice = orderAccept.products.reduce((sum, item) => sum + item.totalPrice, 0)
+    }
+
+    res.render('admin/page/orders/accept', {
+        pageTitle : "Trang danh sách đơn hàng đã xác nhận",
+        ordersAccept : ordersAccept,
+    })
+}
+
+
+// [POST] /admin/orders/accept
+module.exports.acceptPost = async (req, res) => {
+    const orderId = req.body.accept
+    if(orderId){
+        await Order.updateOne(
+            {_id : orderId},
+            {accept : true}
+        )
+    }
+    res.redirect("back")
 }

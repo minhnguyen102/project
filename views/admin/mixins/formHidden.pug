@@ -19,3 +19,17 @@ mixin formHiddenPermission(id, path)
                 class="form-control"
                 name="permissions"
             )
+
+mixin formHiddenAccept(id, path)
+    form(
+        action=path
+        method="POST"
+        id=id
+        class="d-none"
+    )
+        div(clas="form-group")
+            input(
+                type="text"
+                class="form-control"
+                name="accept"
+            )

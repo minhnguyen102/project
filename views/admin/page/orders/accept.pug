@@ -16,14 +16,6 @@ block main
         
         .row 
             .col-12 
-                a(
-                    href=`${prefixAdmin}/orders/accept`
-                    class="btn btn-primary"
-                ) Đơn hàng đã xác nhận (#{countOrderAccept})
-        br
-
-        .row 
-            .col-12 
                 table(class="table table-bordered")
                     thead 
                         tr 
@@ -34,10 +26,10 @@ block main
                             th Tổng tiền
                             th Chi tiết
                             if(role.permissions.includes("orders_accept"))
-                                th Hành động
+                                th Hành động 
                     tbody
-                        if(orders.length > 0)
-                            each item, index in orders
+                        if(ordersAccept.length > 0)
+                            each item, index in ordersAccept
                                 tr 
                                     td #{index + 1}
                                     //- td CHEL-#{index + 1}
@@ -50,10 +42,10 @@ block main
                                     if(role.permissions.includes("orders_accept"))        
                                         td 
                                             a(
-                                                class="btn btn-success"    
+                                                class="btn btn-danger"    
                                                 button-access
                                                 id-item=item.id
-                                            ) Duyệt
+                                            ) Not Logic
 
     +formHiddenAccept("form-accept", `${prefixAdmin}/orders/accept`)
                         

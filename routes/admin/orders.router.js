@@ -7,4 +7,8 @@ router.get('/', controller.index);
 
 router.get('/detail/:orderId', controller.detail);
 
+router.post('/accept', controller.acceptPost);
+
+router.get('/accept', controller.accept);
+
 module.exports = router; // cho phép các file khác được require
