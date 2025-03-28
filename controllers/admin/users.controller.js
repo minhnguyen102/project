@@ -39,3 +39,25 @@ module.exports.notFriend = async (req, res) => {
         users : users
     })
 }
+// [GET] /admin/user/request
+module.exports.request = async (req, res) => {
+    // Socket
+    usersSocket(res);
+    // End Socket
+    const myUserId = res.locals.user.id;
+    const myUser = await Account.findOne({
+        _id : myUserId
+    })
+    const requestFriends = myUser.requestFriends;
+
+    const usersRequest = await Account.find({
+        _id : { $in : requestFriends },
+        status : "active",
+        deleted : false
+    }).select("fullname avatar id")
+
+    res.render("admin/page/users/request",{
+        pageTitle : "Lời mời đã gửi ",
+        usersRequest : usersRequest
+    })
+}

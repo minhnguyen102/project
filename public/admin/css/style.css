@@ -450,7 +450,7 @@
 .box-user.add [btn-add-friend]{
   display: none;
 }
-.box-user [btn-cancel-friend]{
+.box-user.add [btn-cancel-friend]{
   display: inline-block;
 }
 /* End user not-friend */
