@@ -64,5 +64,38 @@ module.exports = async (res) =>{
                 )
             }
         })
+
+        socket.on("CLIENT_REFUSE_FRIEND", async (userId) => {
+            // A từ chối yêu cầu kết bạn được gửi đến từ B
+            
+            // console.log(myUserId); // id của A
+            // console.log(userId); // id của B
+
+            //B1 : Xóa id của A trong requestFriends của B
+            // check requestFriends của A có B chưa 
+            const exitUserInRequestFriends = await Account.findOne({
+                _id : userId,
+                requestFriends : myUserId
+            })
+            
+            if(exitUserInRequestFriends){
+                await Account.updateOne(
+                    {_id : userId},
+                    {$pull : { requestFriends : myUserId}}
+                )
+            }
+            //B2 : Xóa id của B trong acceptFriends của A
+            const exitUserInAcceptFriends = await Account.findOne({
+                _id : myUserId,
+                acceptFriends : userId
+            })
+            
+            if(exitUserInAcceptFriends){
+                await Account.updateOne(
+                    {_id : myUserId},
+                    {$pull : { acceptFriends : userId}}
+                )
+            }
+        })
     })
 }

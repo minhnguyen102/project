@@ -3,7 +3,7 @@ const Role = require("../../models/role.model")
 
 const usersSocket = require("../../sockets/admin/users.socket")
 
-// [GET] /admin/dashboard
+// [GET] /admin/user/not-friend
 module.exports.notFriend = async (req, res) => {
     // Socket
     usersSocket(res);
@@ -59,5 +59,30 @@ module.exports.request = async (req, res) => {
     res.render("admin/page/users/request",{
         pageTitle : "Lời mời đã gửi ",
         usersRequest : usersRequest
+    })
+}
+
+// [GET] /admin/user/accept
+module.exports.accept = async (req, res) => {
+    // Socket
+    usersSocket(res);
+    // End Socket
+    const user_id = res.locals.user.id;
+    const myUser = await Account.findOne({
+        _id : user_id
+    })
+
+    // const requestFriends = myUser.requestFriends;
+    const acceptFriends = myUser.acceptFriends;
+    
+    const users = await Account.find({
+        _id : {$in : acceptFriends},
+        status : "active",
+        deleted : false
+    }).select("fullname avatar id")
+
+    res.render("admin/page/users/accept",{
+        pageTitle : "Lời mời kết bạn",
+        users : users
     })
 }
