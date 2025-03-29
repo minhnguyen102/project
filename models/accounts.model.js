@@ -9,6 +9,7 @@ const accountSchema = new mongoose.Schema({
         type : String,
         default : generateHelper.generateRandomString(20)
     },
+    statusOnline : String,
     acceptFriends : Array,
     requestFriends : Array,
     friendList : [

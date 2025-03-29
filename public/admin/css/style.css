@@ -481,3 +481,13 @@
   display: inline-block;
 }
 /* End user not-friend */
+
+.box-user .inner-status {
+  font-size: 12px;
+  color : rgb(8, 218, 85);
+  opacity: 0;
+}
+
+.box-user .inner-status[status="online"]{
+  opacity: 1;
+}

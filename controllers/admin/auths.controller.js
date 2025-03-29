@@ -42,12 +42,19 @@ module.exports.loginPost = async(req, res) =>{
 
     // Khi đăng nhập : Lưu vào trong cookie 1 giá trị token của tài khoản
     res.cookie("token", user.token)
+    await Account.updateOne(
+        {_id : user.id},
+        {statusOnline : "online"}
+    )
     res.redirect(`${systemConfig.prefixAdmin}/dashboard`)
 }
 
-
 // [GET] /admin/auth/logout
-module.exports.logout = (req, res) =>{
+module.exports.logout = async (req, res) =>{
     res.clearCookie("token");
+    await Account.updateOne(
+        {_id : res.locals.user.id},
+        {statusOnline : "offline"}
+    )
     res.redirect(`${systemConfig.prefixAdmin}/auth/login`)
 }

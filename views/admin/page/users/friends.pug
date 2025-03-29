@@ -1,0 +1,31 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main
+    .container.my-3 
+        include ../../partials/list-button-user
+
+        .row 
+            .col-12 
+                +box-head(pageTitle)
+        
+        .row    
+            each user in users  
+                .col-6 
+                    div(class="box-user")
+                        div(class="inner-avatar")
+                            img(
+                                src=user.avatar
+                                alt=""
+                            )
+                        div(class="inner-infor")
+                            div(class="inner-name") #{user.fullname}
+                            div(class="inner-buttons")
+                                a(
+                                    href="#"
+                                    class="btn btn-primary btn-sm mr-1"
+                                ) Nhắn tin
+                        div(
+                            class="inner-status"
+                            status=user.statusOnline
+                        ) <i class="fa-solid fa-circle"></i>
