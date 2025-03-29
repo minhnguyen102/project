@@ -25,7 +25,6 @@ if (btnsCancelFriend.length > 0) {
 
             // tạo sự kiện gửi lên sever userId
             socket.emit("CLIENT_CANCEL_FRIEND", userId);
-            console.log("oke")
         })
     })
 }
@@ -109,6 +108,8 @@ socket.on("SERVER_RETURN_INFO_ACCPET_FRIEND", (data) => {
         //tạo ra thẻ để insert thông tin đó vào 
         const newBoxUser = document.createElement("div");
         newBoxUser.classList.add("col-6");
+        newBoxUser.setAttribute("user-id", infoUser._id)
+
         newBoxUser.innerHTML = `
             <div class="box-user">
                 <div class="inner-avatar">
@@ -162,3 +163,20 @@ socket.on("SERVER_RETURN_INFO_ACCPET_FRIEND", (data) => {
 
 })
 // END SERVER_RETURN_INFO_ACCPET_FRIEND
+
+// SERVER_RETURN_ID_USER_CANCEL_FRIEND
+socket.on("SERVER_RETURN_ID_USER_CANCEL_FRIEND", data => {
+    // lấy ra thông tin id của a, b
+    const {userId, myUserId} = data;
+
+    // lấy ra danh sách lời mời kết bạn của B => xóa A
+    const dataUsersAccept = document.querySelector("[data-users-accept]") // danh sách của BB
+    const check = dataUsersAccept.getAttribute("data-users-accept") // id của B
+
+    if (check == userId) {
+        const userRemove = dataUsersAccept.querySelector(`[user-id = "${myUserId}"]`);
+        dataUsersAccept.removeChild(userRemove)
+    }
+
+})
+// END SERVER_RETURN_ID_USER_CANCEL_FRIEND

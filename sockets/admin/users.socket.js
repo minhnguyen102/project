@@ -97,6 +97,13 @@ module.exports = async (res) =>{
                 userId : userId,
                 lengthAcceptFriendsOfB : lengthAcceptFriendsOfB
             })
+
+            // Khi hủy gửi yêu cầu => xóa A khỏi danh sách lời mời của B (realtime)
+            // trả về id của A(để xóa A) và id của B(dể chỉ mình ông B xóa)
+            socket.broadcast.emit("SERVER_RETURN_ID_USER_CANCEL_FRIEND", {
+                userId : userId, // id cuả người nhận (B)
+                myUserId : myUserId // id của người gửi (A)
+            })
         })
 
         socket.on("CLIENT_REFUSE_FRIEND", async (userId) => {
