@@ -143,6 +143,21 @@ socket.on("SERVER_RETURN_INFO_ACCPET_FRIEND", (data) => {
                 })
             })
         }
+
+        // Làm lại sự kiện chấp nhận => vì đây là nút chấp nhận mới
+        const buttonsAcceptFriend = document.querySelectorAll("[btn-accept-friend]")
+        if(buttonsAcceptFriend.length > 0){
+            buttonsAcceptFriend.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    //Ẩn đi khối +  lấy ra userId
+                    btn.closest(".box-user").classList.add("accepted")
+                    const userId = btn.getAttribute("btn-accept-friend");
+        
+                    // tạo sự kiện gửi lên sever userId
+                    socket.emit("CLIENT_ACCEPT_FRIEND", userId);
+                })
+            })
+        }
     }
 
 })
