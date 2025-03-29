@@ -31,6 +31,17 @@ module.exports = async (res) =>{
                     {$push : {acceptFriends : myUserId}}
                 )
             }
+
+            // Lấy ra độ dài acceptFriends của B và chỉ trả về cho B
+            const userB = await Account.findOne({
+                _id : userId
+            })
+            const lengthAcceptFriendsOfB = userB.acceptFriends.length;
+            
+            socket.broadcast.emit("SERVER_RETURN_LENGTH_ACCPET_FRIEND", {
+                userId : userId,
+                lengthAcceptFriendsOfB : lengthAcceptFriendsOfB
+            })
         })
 
         socket.on("CLIENT_CANCEL_FRIEND", async (userId) => {

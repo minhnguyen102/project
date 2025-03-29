@@ -64,3 +64,16 @@ if(btnsAcceptFriend.length > 0){
     })
 }
 // End Chức năng đồng ý kết bạn
+
+// SERVER_RETURN_LENGTH_ACCPET_FRIEND
+socket.on("SERVER_RETURN_LENGTH_ACCPET_FRIEND", (data) => {
+    // console.log(data); // thông tin của người được gửi kết bạn
+    // Hiển thị số 1 ra ngoài giao diện của user có với điều kiệu trung id => update đúng người
+    const {lengthAcceptFriendsOfB, userId} = data;
+    const badgeUsersAccept = document.querySelector("[badge-users-accept]")
+    const checkUserId = badgeUsersAccept.getAttribute("badge-users-accept")
+    if(checkUserId == userId){
+        badgeUsersAccept.innerHTML = lengthAcceptFriendsOfB;
+    }
+})
+// END SERVER_RETURN_LENGTH_ACCPET_FRIEND
