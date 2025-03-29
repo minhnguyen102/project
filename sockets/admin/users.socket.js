@@ -55,6 +55,13 @@ module.exports = async (res) =>{
             })
             // Hết Hiển thị A vào danh sách lời mời kết bạn của B
 
+            // Xoá A khỏi danh sách not-friend của B
+            socket.broadcast.emit("SERVER_RETURN_ID_USER_REMOVE_IN_NOTFRIEND", {
+                userId : userId, // id cuar B để check chỉ B xóa
+                myUserId : myUserId // id của A để xóa A,
+            })
+            // Hết Xoá A khỏi danh sách not-friend của B
+
         })
 
         socket.on("CLIENT_CANCEL_FRIEND", async (userId) => {

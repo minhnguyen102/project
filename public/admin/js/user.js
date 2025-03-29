@@ -99,18 +99,19 @@ socket.on("SERVER_RETURN_LENGTH_CANCEL_FRIEND", (data) => {
 // SERVER_RETURN_INFO_ACCPET_FRIEND
 socket.on("SERVER_RETURN_INFO_ACCPET_FRIEND", (data) => {
     const dataUsersAccept = document.querySelector("[data-users-accept]")
-    const check = dataUsersAccept.getAttribute("data-users-accept")
-    // lấy thông tin người gửi lời mới đến
-    const infoUser = data.infoUserA
-    const userId = data.userId
+    if (dataUsersAccept) {
+        const check = dataUsersAccept.getAttribute("data-users-accept")
+        // lấy thông tin người gửi lời mới đến
+        const infoUser = data.infoUserA
+        const userId = data.userId
 
-    if (check == userId) {
-        //tạo ra thẻ để insert thông tin đó vào 
-        const newBoxUser = document.createElement("div");
-        newBoxUser.classList.add("col-6");
-        newBoxUser.setAttribute("user-id", infoUser._id)
+        if (check == userId) {
+            //tạo ra thẻ để insert thông tin đó vào 
+            const newBoxUser = document.createElement("div");
+            newBoxUser.classList.add("col-6");
+            newBoxUser.setAttribute("user-id", infoUser._id)
 
-        newBoxUser.innerHTML = `
+            newBoxUser.innerHTML = `
             <div class="box-user">
                 <div class="inner-avatar">
                     <img src=${infoUser.avatar} alt=${infoUser.fullname}>
@@ -127,56 +128,80 @@ socket.on("SERVER_RETURN_INFO_ACCPET_FRIEND", (data) => {
             </div>
             `
 
-        dataUsersAccept.appendChild(newBoxUser);
+            dataUsersAccept.appendChild(newBoxUser);
 
 
-        // Làm lại sự kiện xóa => vì đây là nút xóa mới
-        const buttonsRefuseFriend = document.querySelectorAll("[btn-refuse-friend]")
-        if(buttonsRefuseFriend.length > 0){
-            buttonsRefuseFriend.forEach(btn => {
-                btn.addEventListener("click", () => {
-                    //Ẩn đi khối +  lấy ra userId
-                    btn.closest(".box-user").classList.add("refuse")
-                    const userId = btn.getAttribute("btn-refuse-friend");
-        
-                    // tạo sự kiện gửi lên sever userId
-                    socket.emit("CLIENT_REFUSE_FRIEND", userId);
+            // Làm lại sự kiện xóa => vì đây là nút xóa mới
+            const buttonsRefuseFriend = document.querySelectorAll("[btn-refuse-friend]")
+            if (buttonsRefuseFriend.length > 0) {
+                buttonsRefuseFriend.forEach(btn => {
+                    btn.addEventListener("click", () => {
+                        //Ẩn đi khối +  lấy ra userId
+                        btn.closest(".box-user").classList.add("refuse")
+                        const userId = btn.getAttribute("btn-refuse-friend");
+
+                        // tạo sự kiện gửi lên sever userId
+                        socket.emit("CLIENT_REFUSE_FRIEND", userId);
+                    })
                 })
-            })
-        }
+            }
 
-        // Làm lại sự kiện chấp nhận => vì đây là nút chấp nhận mới
-        const buttonsAcceptFriend = document.querySelectorAll("[btn-accept-friend]")
-        if(buttonsAcceptFriend.length > 0){
-            buttonsAcceptFriend.forEach(btn => {
-                btn.addEventListener("click", () => {
-                    //Ẩn đi khối +  lấy ra userId
-                    btn.closest(".box-user").classList.add("accepted")
-                    const userId = btn.getAttribute("btn-accept-friend");
-        
-                    // tạo sự kiện gửi lên sever userId
-                    socket.emit("CLIENT_ACCEPT_FRIEND", userId);
+            // Làm lại sự kiện chấp nhận => vì đây là nút chấp nhận mới
+            const buttonsAcceptFriend = document.querySelectorAll("[btn-accept-friend]")
+            if (buttonsAcceptFriend.length > 0) {
+                buttonsAcceptFriend.forEach(btn => {
+                    btn.addEventListener("click", () => {
+                        //Ẩn đi khối +  lấy ra userId
+                        btn.closest(".box-user").classList.add("accepted")
+                        const userId = btn.getAttribute("btn-accept-friend");
+
+                        // tạo sự kiện gửi lên sever userId
+                        socket.emit("CLIENT_ACCEPT_FRIEND", userId);
+                    })
                 })
-            })
+            }
         }
     }
-
 })
 // END SERVER_RETURN_INFO_ACCPET_FRIEND
 
 // SERVER_RETURN_ID_USER_CANCEL_FRIEND
 socket.on("SERVER_RETURN_ID_USER_CANCEL_FRIEND", data => {
     // lấy ra thông tin id của a, b
-    const {userId, myUserId} = data;
+    const {
+        userId,
+        myUserId
+    } = data;
 
     // lấy ra danh sách lời mời kết bạn của B => xóa A
-    const dataUsersAccept = document.querySelector("[data-users-accept]") // danh sách của BB
-    const check = dataUsersAccept.getAttribute("data-users-accept") // id của B
+    const dataUsersAccept = document.querySelector("[data-users-accept]") // danh sách của B
+    if(dataUsersAccept){
+        const check = dataUsersAccept.getAttribute("data-users-accept") // id của B
 
-    if (check == userId) {
-        const userRemove = dataUsersAccept.querySelector(`[user-id = "${myUserId}"]`);
-        dataUsersAccept.removeChild(userRemove)
+        if (check == userId) {
+            const userRemove = dataUsersAccept.querySelector(`[user-id = "${myUserId}"]`);
+            if (userRemove) {
+                dataUsersAccept.removeChild(userRemove)
+            }
+        }
     }
-
 })
 // END SERVER_RETURN_ID_USER_CANCEL_FRIEND
+
+socket.on("SERVER_RETURN_ID_USER_REMOVE_IN_NOTFRIEND", data =>{
+    // Lấy ra danh sách not-friend của B
+    const listUserNotFriend = document.querySelector("[data-user]");
+    console.log(listUserNotFriend)
+    if(listUserNotFriend){
+        const userId = listUserNotFriend.getAttribute("data-user");
+        if(userId == data.userId){ // check B
+            const idUserRemove = data.myUserId;
+            const userRemove = listUserNotFriend.querySelector(`[user-id="${idUserRemove}"]`);
+            if(userRemove){
+                listUserNotFriend.removeChild(userRemove)
+            }
+        }
+    }
+    // Tìm A và xóa A
+
+})

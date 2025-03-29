@@ -4,9 +4,9 @@ block main
 	h1 #{pageTitle}
 	include ../../partials/list-button-user
 
-	.row 
+	.row(data-user=user.id)
 		each  user in users
-			.col-6 
+			.col-6(user-id=user.id)
 				div(class="box-user")
 					div(class="inner-avatar")
 						img(
