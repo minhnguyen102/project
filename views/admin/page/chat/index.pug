@@ -14,6 +14,7 @@ block main
         button.chat-button
           i.fas.fa-comments
         .chat-widget
+          //- h5(class="p-3 mb-2 bg-primary text-white") #{fullnameContact}
           .chat(my-id = user.id)
             .inner-body 
               each chat in chats
