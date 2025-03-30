@@ -205,3 +205,31 @@ socket.on("SERVER_RETURN_ID_USER_REMOVE_IN_NOTFRIEND", data =>{
     // Tìm A và xóa A
 
 })
+
+// SEVER_RETURN_ID_USER_ONLINE
+socket.on("SEVER_RETURN_ID_USER_ONLINE", userId =>{
+    // console.log(data);
+    const listUserFriend = document.querySelector("[list-user-friend]");
+    if(listUserFriend){
+        const boxUserOnline = listUserFriend.querySelector(`[user-id="${userId}"]`);
+        if(boxUserOnline){
+            const status = boxUserOnline.querySelector("[status]");
+            status.setAttribute("status", "online")
+        }
+    }
+})
+// END SEVER_RETURN_ID_USER_ONLINE
+
+// SEVER_RETURN_ID_USER_OFFLINE
+socket.on("SEVER_RETURN_ID_USER_OFFLINE", userId =>{
+    console.log("OFF")
+    const listUserFriend = document.querySelector("[list-user-friend]");
+    if(listUserFriend){
+        const boxUserOnline = listUserFriend.querySelector(`[user-id="${userId}"]`);
+        if(boxUserOnline){
+            const status = boxUserOnline.querySelector("[status]");
+            status.setAttribute("status", "offline")
+        }
+    }
+})
+// END SEVER_RETURN_ID_USER_OFFLINE

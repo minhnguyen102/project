@@ -40,6 +40,12 @@ module.exports.loginPost = async(req, res) =>{
         return;
     }
 
+    // tạo ra một sự kiện
+    _io.once("connection", (socket) =>{
+        const myUserId = user.id;
+        socket.broadcast.emit("SEVER_RETURN_ID_USER_ONLINE", myUserId);
+    })
+
     // Khi đăng nhập : Lưu vào trong cookie 1 giá trị token của tài khoản
     res.cookie("token", user.token)
     await Account.updateOne(
@@ -51,10 +57,16 @@ module.exports.loginPost = async(req, res) =>{
 
 // [GET] /admin/auth/logout
 module.exports.logout = async (req, res) =>{
-    res.clearCookie("token");
+    _io.once("connection", (socket) =>{
+        const myUserId = res.locals.user.id;
+        socket.broadcast.emit("SEVER_RETURN_ID_USER_OFFLINE", myUserId);
+    })
+
     await Account.updateOne(
         {_id : res.locals.user.id},
         {statusOnline : "offline"}
     )
+
+    res.clearCookie("token");
     res.redirect(`${systemConfig.prefixAdmin}/auth/login`)
 }
