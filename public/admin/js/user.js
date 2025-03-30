@@ -191,7 +191,6 @@ socket.on("SERVER_RETURN_ID_USER_CANCEL_FRIEND", data => {
 socket.on("SERVER_RETURN_ID_USER_REMOVE_IN_NOTFRIEND", data =>{
     // Lấy ra danh sách not-friend của B
     const listUserNotFriend = document.querySelector("[data-user]");
-    console.log(listUserNotFriend)
     if(listUserNotFriend){
         const userId = listUserNotFriend.getAttribute("data-user");
         if(userId == data.userId){ // check B

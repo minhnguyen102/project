@@ -110,6 +110,14 @@ module.exports.friends = async (req, res) => {
         deleted : false
     }).select("fullname avatar id statusOnline")
 
+
+    // mục đích là trong mỗi object của user thuộc mảng users có thêm 1 trường roomchatid => cần lặp qua users
+    // Lấy thông tin room chat id ở đâu ? => ở trong friendList => friendList.find
+    users.forEach(user => {
+        const infoUser = friendList.find(item => item.user_id == user.id);
+        user.room_chat_id = infoUser.room_chat_id
+    });
+
     res.render("admin/page/users/friends",{
         pageTitle : "Danh sách bạn bè",
         users : users

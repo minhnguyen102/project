@@ -22,7 +22,7 @@ block main
                             div(class="inner-name") #{user.fullname}
                             div(class="inner-buttons")
                                 a(
-                                    href="#"
+                                    href=`${prefixAdmin}/chat/${user.room_chat_id}`
                                     class="btn btn-primary btn-sm mr-1"
                                 ) Nhắn tin
                         div(
