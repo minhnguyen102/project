@@ -103,21 +103,28 @@ module.exports.delete = async (req, res) =>{
     const productId = req.params.productId;
     const cartId = req.cookies.cartId;
 
-    const checkedProduct = await Product.findOne({
-        _id : productId
-    }).select("title")
-
-    if(checkedProduct){
-        await Cart.updateOne(
-            { _id : cartId }, 
-            { "$pull": { products: { "product_id": productId }}}
-        );
+    try {
+        const checkedProduct = await Product.findOne({
+            _id : productId
+        }).select("title")
     
-        res.json({
-            code :  200,
-            message : "success"
-        })
-    }else{
+        if(checkedProduct){
+            await Cart.updateOne(
+                { _id : cartId }, 
+                { "$pull": { products: { "product_id": productId }}}
+            );
+        
+            res.json({
+                code :  200,
+                message : "success"
+            })
+        }else{
+            res.json({
+                code : 400,
+                message : "Sản phẩm không tồn tại"
+            })
+        }
+    } catch (error) {
         res.json({
             code : 400,
             message : "Sản phẩm không tồn tại"

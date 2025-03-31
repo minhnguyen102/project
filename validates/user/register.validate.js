@@ -104,3 +104,29 @@ module.exports.repassword = (req, res, next) => {
     next();
 }
 
+module.exports.checkout = (req, res, next) => {
+    if(!req.body.fullName){
+        res.json({
+            code : 400,
+            message : `Vui lòng nhập tên`
+        })
+        return;
+    }
+    if(!req.body.phone){
+        res.json({
+            code : 400,
+            message : `Vui lòng nhập số điện thoại`
+        })
+        return;
+    }
+    if(!req.body.address){
+        res.json({
+            code : 400,
+            message : `Vui lòng nhập địa chỉ`
+        })
+        return;
+    }
+    
+    next();
+}
+

@@ -10,7 +10,6 @@ module.exports.accessChat = async (req, res, next) => {
             "users.user_id": user_id,
             deleted: false
         })
-        console.log(accessChat)
         if (accessChat) {
             next();
         } else {
