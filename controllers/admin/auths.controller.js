@@ -47,7 +47,9 @@ module.exports.loginPost = async(req, res) =>{
     })
 
     // Khi đăng nhập : Lưu vào trong cookie 1 giá trị token của tài khoản
-    res.cookie("token", user.token)
+    res.cookie("token", user.token, {
+        httpOnly: true // thêm để cho bên trình duyệt không lấy được, chỉ bên sever lấy được
+    })
     await Account.updateOne(
         {_id : user.id},
         {statusOnline : "online"}

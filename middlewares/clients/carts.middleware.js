@@ -14,12 +14,17 @@ module.exports.cardId = async (req, res, next) =>{
         const cart = await Cart.findOne({
             _id : req.cookies.cartId
         })
-        cart.totalQuantity = cart.products.reduce((sum, item) => sum + item.quantity, 0) // thêm biến totalQuantity vào object cart
-        // console.log(cart.totalQuantity);
-        // console.log(cart.products.length)
-        cart.totalOrder = cart.products.length
 
-        res.locals.miniCart = cart;
+        // Mới thêm chỗ này vào khối if này 
+        if(cart){
+            cart.totalQuantity = cart.products.reduce((sum, item) => sum + item.quantity, 0) // thêm biến totalQuantity vào object cart
+            // console.log(cart.totalQuantity);
+            // console.log(cart.products.length)
+            cart.totalOrder = cart.products.length
+    
+            res.locals.miniCart = cart;
+        }
+        // Mới thêm chỗ này vào khối if này 
     }
     next();
 }

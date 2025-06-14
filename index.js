@@ -6,7 +6,7 @@ var path = require('path');
 const database = require("./config/database")
 const router = require("./routes/client/index.router") // router client (severSide)
 var cors = require('cors')
-const routerApi = require("./api/v1/routes/index.router")
+// const routerApi = require("./api/v1/routes/index.router")
 const routerAdmin = require("./routes/admin/index.router") // router client(clientSide)
 const app = express()
 const port = 3000
@@ -59,8 +59,8 @@ const io = new Server(server);
 global._io = io;
 
 // router
-// router(app);
-routerApi(app);
+router(app);
+// routerApi(app);
 routerAdmin(app)
 
 // ENV 

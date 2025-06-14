@@ -40,6 +40,7 @@ module.exports.addPost = async (req, res) =>{
     const quantity = parseInt(req.body.quantity);
     
     const cart = await Cart.findOne({_id : cartId});
+    console.log(cart)
 
     const productExit = cart.products.find(item => item.product_id == product_id)
     if(productExit){
